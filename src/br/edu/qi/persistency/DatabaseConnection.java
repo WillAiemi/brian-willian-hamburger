@@ -39,13 +39,13 @@ public class DatabaseConnection {
     private static final String USER = "XXXX";
     private static final String PASSWORD = "XXXX";
 
-    public static Connection getConexao() throws SQLException {
+    public static Connection getConnection() throws SQLException {
 
         Connection c = null;
         try {
             c = DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException se) {
-            throw new SQLException("Erro ao conectar no Banco de Dados! " + se.getMessage());
+            throw new SQLException("Error trying to connect to the Database! " + se.getMessage());
         }
 
         return c;
