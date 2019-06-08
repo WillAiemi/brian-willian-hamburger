@@ -1,0 +1,36 @@
+create table client(
+idclient bigint auto_increment,
+name varchar(100) not null,
+phonenumber varchar(15) not null,
+primary key (idclient)
+);
+
+create table `order`(
+idorder bigint auto_increment,
+idclient bigint not null,
+`date` date not null,
+observation varchar(250),
+primary key(idorder),
+foreign key(idclient) references client(idclient));
+
+create table burguer(
+idburguer bigint auto_increment,
+name varchar(50) not null,
+description varchar(250) not null,
+price double not null,
+primary key(idburguer)
+);
+
+create table orderlist(
+idorder bigint not null,
+idburguer bigint not null,
+quantity int not null,
+observation varchar(100),
+primary key(idorder,idburguer),
+foreign key(idorder) references `order`(idorder),
+foreign key(idburguer) references burguer(idburguer));
+
+drop table orderlist;
+drop table `order`;
+drop table burguer;
+drop table client;
