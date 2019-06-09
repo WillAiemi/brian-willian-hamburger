@@ -43,7 +43,7 @@ public class OrderServices {
     public static final int DATE = 2;
     public static final int OBSERVATION = 3;
     
-    public void insertClient(OrderVO orderVO) throws SQLException {
+    public void insertOrder(OrderVO orderVO) throws SQLException {
         OrderDAO orderDAO = DAOFactory.getOrderDAO();
         orderDAO.insertOrder(orderVO);
     }
