@@ -35,7 +35,6 @@ public class OrderVO {
     private ClientVO clientVO;
     private String date;
     private String observation;
-    private double totalcost;
 
     public OrderVO() {
     }
@@ -45,14 +44,12 @@ public class OrderVO {
      * @param clientVO Get the Client that made the order
      * @param date Get the date
      * @param observation Get the Observation
-     * @param totalcost Get the totalcost
      */
-    public OrderVO(long IDOrder, ClientVO clientVO, String date, String observation, double totalcost) {
+    public OrderVO(long IDOrder, ClientVO clientVO, String date, String observation) {
         this.IDOrder = IDOrder;
         this.clientVO = clientVO;
         this.date = date;
         this.observation = observation;
-        this.totalcost = totalcost;
     }
 
     public long getIDOrder() {
@@ -87,12 +84,9 @@ public class OrderVO {
         this.observation = observation;
     }
 
-    public double getTotalcost() {
-        return totalcost;
-    }
-
-    public void setTotalcost(double totalcost) {
-        this.totalcost = totalcost;
+    public double getTotalCost() {
+        return 0;
+        // TO DO THIS METHOD
     }
 
     @Override
@@ -102,7 +96,7 @@ public class OrderVO {
                 + "Client: " + clientVO + "\n"
                 + "Date: " + date + "\n"
                 + "Observation: " + observation + "\n"
-                + "Totalcost: " + totalcost ;
+                + "Totalcost: " + getTotalCost() ;
     }
     
     
