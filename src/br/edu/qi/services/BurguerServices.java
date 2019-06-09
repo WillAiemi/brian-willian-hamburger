@@ -37,7 +37,7 @@ import java.sql.SQLException;
  */
 public class BurguerServices {
 
-    private void insertBurguer(BurguerVO burguerVO) throws SQLException {
+    public void insertBurguer(BurguerVO burguerVO) throws SQLException {
         BurguerDAO burguerDAO = DAOFactory.getBurguerDAO();
         burguerDAO.insertBurguer(burguerVO);
     }
