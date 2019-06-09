@@ -21,14 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package br.edu.qi.dao;
 
+import br.edu.qi.model.ClientVO;
 import br.edu.qi.model.OrderVO;
 import br.edu.qi.persistency.DatabaseConnection;
+import br.edu.qi.services.ClientServices;
+import br.edu.qi.services.ServicesFactory;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
@@ -37,21 +41,140 @@ import java.sql.Statement;
  * @version 1.0
  */
 public class OrderDAO {
-        
-    public void insertOrder(OrderVO order) throws SQLException{
+
+    public static final int ID_ORDER = 0;
+    public static final int ID_CLIENT = 1;
+    public static final int DATE = 2;
+    public static final int OBSERVATION = 3;
+
+    public void insertOrder(OrderVO order) throws SQLException {
         Connection connection = DatabaseConnection.getConnection();
         Statement statement = connection.createStatement();
-        
+
         try {
-            
-            String sql="insert into order(idorder, idclient, date, observation, totalcost)"
-                    + "values(null, '"+order.getClientVO().getIDClient()+"', '"+order.getDate()+"', '"+order.getObservation()+"', '"+order.getTotalcost()+"')";
-            
+
+            String sql = "insert into `order`(idorder, idclient, date, observation)"
+                    + "values(null, '" + order.getClientVO().getIDClient() + "', '" + order.getDate() + "', '" + order.getObservation() + "');";
+
             statement.execute(sql);
         } catch (SQLException e) {
-            throw new SQLException("Error at inserting Order."+ e.getMessage());
-            
-        }finally {
+            throw new SQLException("Error at inserting order." + e.getMessage());
+
+        } finally {
+            statement.close();
+            connection.close();
+        }
+    }
+
+    public ArrayList<OrderVO> selectOrders() throws SQLException {
+        Connection connection = DatabaseConnection.getConnection();
+        Statement statement = connection.createStatement();
+        ArrayList<OrderVO> orders = new ArrayList<>();
+        try {
+            String sql = "select * from `order`;";
+            ResultSet resultSet = statement.executeQuery(sql);
+            ClientServices clientServices = ServicesFactory.getCLIENT_SERVICES();
+
+            while (resultSet.next()) {
+                ClientVO clientVO = clientServices.selectClients(
+                        String.valueOf(resultSet.getLong("idclient")),
+                        ClientServices.ID_CLIENT
+                ).get(0);
+
+                OrderVO orderVO = new OrderVO(
+                        resultSet.getLong("idorder"),
+                        clientVO,
+                        resultSet.getString("date"),
+                        resultSet.getString("observation")
+                );
+                orders.add(orderVO);
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error at selecting orders.");
+        } finally {
+            statement.close();
+            connection.close();
+        }
+        return orders;
+    }
+
+    public ArrayList<OrderVO> selectOrders(String query, int filter) throws SQLException {
+        Connection connection = DatabaseConnection.getConnection();
+        Statement statement = connection.createStatement();
+        ArrayList<OrderVO> orders = new ArrayList<>();
+        try {
+            String sql = "select * from `order` ";
+            switch (filter) {
+                case ID_ORDER:
+                    sql += "where idorder = " + query + ";";
+                    break;
+                case ID_CLIENT:
+                    sql += "where idclient = " + query + ";";
+                    break;
+                case DATE:
+                    sql += "where date like '%" + query + "%';";
+                    break;
+                case OBSERVATION:
+                    sql += "where observation like '%" + query + "%';";
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            ResultSet resultSet = statement.executeQuery(sql);
+            ClientServices clientServices = ServicesFactory.getCLIENT_SERVICES();
+
+            while (resultSet.next()) {
+                ClientVO clientVO = clientServices.selectClients(
+                        String.valueOf(resultSet.getLong("idclient")),
+                        ClientServices.ID_CLIENT
+                ).get(0);
+
+                OrderVO orderVO = new OrderVO(
+                        resultSet.getLong("idorder"),
+                        clientVO,
+                        resultSet.getString("date"),
+                        resultSet.getString("observation")
+                );
+                orders.add(orderVO);
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error at selecting orders.");
+        } finally {
+            statement.close();
+            connection.close();
+        }
+        return orders;
+    }
+
+    public void updateOrder(OrderVO order) throws SQLException {
+        Connection connection = DatabaseConnection.getConnection();
+        Statement statement = connection.createStatement();
+
+        try {
+            String sql = "update `order` set "
+                    + "idclient = " + order.getClientVO().getIDClient() + ","
+                    + "date = '" + order.getDate() + "',"
+                    + "observation = '" + order.getObservation() + "' "
+                    + "where idorder = " + order.getIDOrder() + ";";
+
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            throw new SQLException("Error at updating order." + e.getMessage());
+        } finally {
+            statement.close();
+            connection.close();
+        }
+    }
+
+    public void deleteOrder(long idOrder) throws SQLException {
+        Connection connection = DatabaseConnection.getConnection();
+        Statement statement = connection.createStatement();
+        try {
+            String sql = "delete from `order` where idorder = " + idOrder + ";";
+            statement.execute(sql);
+        } catch (SQLException e) {
+            throw new SQLException("Error at deleting order.");
+        } finally {
             statement.close();
             connection.close();
         }
