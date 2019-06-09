@@ -53,6 +53,7 @@ public class MainMenu extends javax.swing.JFrame {
         jmbMenu = new javax.swing.JMenuBar();
         jmiNew = new javax.swing.JMenu();
         jmiNewClient = new javax.swing.JMenuItem();
+        jmiNewBurguer = new javax.swing.JMenuItem();
         jmiEdit = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -80,6 +81,15 @@ public class MainMenu extends javax.swing.JFrame {
         });
         jmiNew.add(jmiNewClient);
 
+        jmiNewBurguer.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        jmiNewBurguer.setText("New Burguer");
+        jmiNewBurguer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiNewBurguerActionPerformed(evt);
+            }
+        });
+        jmiNew.add(jmiNewBurguer);
+
         jmbMenu.add(jmiNew);
 
         jmiEdit.setText("Edit");
@@ -102,15 +112,25 @@ public class MainMenu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void insertClientToDesktop() {
+    private void insertUINewClientToDesktop() {
         UINewClient uINewClient = new UINewClient();
         jdpDesktop.add(uINewClient);
         uINewClient.setVisible(true);
     }
     
+    private void insertUINewBurguerToDesktop() {
+        UINewBurguer uINewBurguer = new UINewBurguer();
+        jdpDesktop.add(uINewBurguer);
+        uINewBurguer.setVisible(true);
+    }
+    
     private void jmiNewClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiNewClientActionPerformed
-        insertClientToDesktop();
+        insertUINewClientToDesktop();
     }//GEN-LAST:event_jmiNewClientActionPerformed
+
+    private void jmiNewBurguerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiNewBurguerActionPerformed
+        insertUINewBurguerToDesktop();
+    }//GEN-LAST:event_jmiNewBurguerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -152,6 +172,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuBar jmbMenu;
     private javax.swing.JMenu jmiEdit;
     private javax.swing.JMenu jmiNew;
+    private javax.swing.JMenuItem jmiNewBurguer;
     private javax.swing.JMenuItem jmiNewClient;
     // End of variables declaration//GEN-END:variables
 }

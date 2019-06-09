@@ -53,6 +53,12 @@ public class BurguerVO {
         this.price = price;
     }
 
+    public BurguerVO(String name, String description, double price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
+
     public String getIDBurguer() {
         return IDBurguer;
     }
