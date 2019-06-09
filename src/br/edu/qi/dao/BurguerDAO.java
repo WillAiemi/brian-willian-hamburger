@@ -82,7 +82,7 @@ public class BurguerDAO {
         return burguers;
     }
     
-        public ArrayList<BurguerVO> selectBurguer(String query, int filter) throws SQLException{
+        public ArrayList<BurguerVO> selectBurguers(String query, int filter) throws SQLException{
             Connection connection = DatabaseConnection.getConnection();
             Statement statement = connection.createStatement();
             ArrayList<BurguerVO> burguers = new ArrayList<>();

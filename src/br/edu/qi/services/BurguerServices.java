@@ -28,6 +28,7 @@ import br.edu.qi.dao.BurguerDAO;
 import br.edu.qi.dao.DAOFactory;
 import br.edu.qi.model.BurguerVO;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -40,6 +41,16 @@ public class BurguerServices {
     public void insertBurguer(BurguerVO burguerVO) throws SQLException {
         BurguerDAO burguerDAO = DAOFactory.getBurguerDAO();
         burguerDAO.insertBurguer(burguerVO);
+    }
+    
+    public ArrayList<BurguerVO> selectBurguers() throws SQLException {
+        BurguerDAO burguerDAO = DAOFactory.getBurguerDAO();
+        return burguerDAO.selectsBurguers();
+    }
+    
+    public ArrayList<BurguerVO> selectBurguers(String query, int filter) throws SQLException {
+        BurguerDAO burguerDAO = DAOFactory.getBurguerDAO();
+        return burguerDAO.selectBurguers(query, filter);
     }
     
 }
