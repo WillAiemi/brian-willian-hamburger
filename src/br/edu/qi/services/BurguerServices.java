@@ -24,23 +24,22 @@
 
 package br.edu.qi.services;
 
+import br.edu.qi.dao.BurguerDAO;
+import br.edu.qi.dao.DAOFactory;
+import br.edu.qi.model.BurguerVO;
+import java.sql.SQLException;
+
 /**
  *
  * @author Brian & Willian
- * @since 07/06/2019 - 18:22:15
+ * @since 08/06/2019 - 23:51:31
  * @version 1.0
  */
-public class ServicesFactory {
-    
-    private static final ClientServices CLIENT_SERVICES = new ClientServices();
-    private static final BurguerServices BURGUER_SERVICES = new BurguerServices();
+public class BurguerServices {
 
-    public static ClientServices getCLIENT_SERVICES() {
-        return CLIENT_SERVICES;
-    }
-
-    public static BurguerServices getBURGUER_SERVICES() {
-        return BURGUER_SERVICES;
+    private void insertBurguer(BurguerVO burguerVO) throws SQLException {
+        BurguerDAO burguerDAO = DAOFactory.getBurguerDAO();
+        burguerDAO.insertBurguer(burguerVO);
     }
     
 }
