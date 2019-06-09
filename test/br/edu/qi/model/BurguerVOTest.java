@@ -28,7 +28,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
 
 /**
  *
@@ -42,7 +42,7 @@ public class BurguerVOTest {
     
     @BeforeClass
     public static void setUpClass() {
-        burguerVO.setIDBurguer("1");
+        burguerVO.setIDBurguer(1);
         burguerVO.setName("Tradicional");
         burguerVO.setPrice(20.5);
         burguerVO.setDescription("Melhor da região");

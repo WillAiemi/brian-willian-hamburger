@@ -31,7 +31,7 @@ package br.edu.qi.model;
  * @version 1.0
  */
 public class BurguerVO {
-    private String IDBurguer;
+    private long IDBurguer;
     private String name;
     private String description;
     private double price;
@@ -46,7 +46,8 @@ public class BurguerVO {
      * @param description Get description of burguer
      * @param price Get the price
      */
-    public BurguerVO(String IDBurguer, String name, String description, double price) {
+    
+    public BurguerVO(long IDBurguer, String name, String description, double price) {
         this.IDBurguer = IDBurguer;
         this.name = name;
         this.description = description;
@@ -59,14 +60,14 @@ public class BurguerVO {
         this.price = price;
     }
 
-    public String getIDBurguer() {
+    public long getIDBurguer() {
         return IDBurguer;
     }
 
-    public void setIDBurguer(String IDBurguer) {
+    public void setIDBurguer(long IDBurguer) {
         this.IDBurguer = IDBurguer;
     }
-
+    
     public String getName() {
         return name;
     }
