@@ -49,14 +49,37 @@ public class MainMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jdpDesktop = new javax.swing.JDesktopPane();
         jmbMenu = new javax.swing.JMenuBar();
         jmiNew = new javax.swing.JMenu();
+        jmiNewClient = new javax.swing.JMenuItem();
         jmiEdit = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        javax.swing.GroupLayout jdpDesktopLayout = new javax.swing.GroupLayout(jdpDesktop);
+        jdpDesktop.setLayout(jdpDesktopLayout);
+        jdpDesktopLayout.setHorizontalGroup(
+            jdpDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jdpDesktopLayout.setVerticalGroup(
+            jdpDesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 273, Short.MAX_VALUE)
+        );
+
         jmiNew.setText("New");
         jmiNew.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
+        jmiNewClient.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        jmiNewClient.setText("New Client");
+        jmiNewClient.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiNewClientActionPerformed(evt);
+            }
+        });
+        jmiNew.add(jmiNewClient);
+
         jmbMenu.add(jmiNew);
 
         jmiEdit.setText("Edit");
@@ -69,15 +92,25 @@ public class MainMenu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jdpDesktop, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 273, Short.MAX_VALUE)
+            .addComponent(jdpDesktop, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void insertClientToDesktop() {
+        UINewClient uINewClient = new UINewClient();
+        jdpDesktop.add(uINewClient);
+        uINewClient.setVisible(true);
+    }
+    
+    private void jmiNewClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiNewClientActionPerformed
+        insertClientToDesktop();
+    }//GEN-LAST:event_jmiNewClientActionPerformed
 
     /**
      * @param args the command line arguments
@@ -115,8 +148,10 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDesktopPane jdpDesktop;
     private javax.swing.JMenuBar jmbMenu;
     private javax.swing.JMenu jmiEdit;
     private javax.swing.JMenu jmiNew;
+    private javax.swing.JMenuItem jmiNewClient;
     // End of variables declaration//GEN-END:variables
 }

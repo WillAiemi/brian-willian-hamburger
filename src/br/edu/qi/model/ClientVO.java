@@ -38,8 +38,24 @@ public class ClientVO {
     public ClientVO() {
     }
 
+    /**
+     * Class constructor
+     * @param IDClient Get the Client ID
+     * @param name Get the Client name
+     * @param phoneNumber Get the Client phone number
+     */
     public ClientVO(long IDClient, String name, String phoneNumber) {
         this.IDClient = IDClient;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+    }
+
+    /**
+     * Constructor without ID
+     * @param name Get the Client name
+     * @param phoneNumber Get the Client phone number
+     */
+    public ClientVO(String name, String phoneNumber) {
         this.name = name;
         this.phoneNumber = phoneNumber;
     }
