@@ -34,6 +34,7 @@ public class DAOFactory {
     private static final ClientDAO CLIENT_DAO = new ClientDAO();
     private static final BurguerDAO BURGUER_DAO = new BurguerDAO();
     private static final OrderDAO ORDER_DAO = new OrderDAO();
+    private static final OrderListDAO ORDER_LIST_DAO = new OrderListDAO();
 
     public static ClientDAO getClientDAO() {
         return CLIENT_DAO;
@@ -46,5 +47,11 @@ public class DAOFactory {
     public static OrderDAO getOrderDAO() {
         return ORDER_DAO;
     }
+
+    public static OrderListDAO getOrderListDAO() {
+        return ORDER_LIST_DAO;
+    }
+    
+    
     
 }
