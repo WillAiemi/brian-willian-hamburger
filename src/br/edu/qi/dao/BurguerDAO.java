@@ -27,8 +27,10 @@ package br.edu.qi.dao;
 import br.edu.qi.model.BurguerVO;
 import br.edu.qi.persistency.DatabaseConnection;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
@@ -49,5 +51,33 @@ public class BurguerDAO {
             throw new SQLException("Error when inserting burguer to the database.");
         }
     }
+    
+    public ArrayList<BurguerVO> selectsBurguers() throws SQLException{
+        Connection connection = DatabaseConnection.getConnection();
+        Statement statement = connection.createStatement();
+        ArrayList<BurguerVO> burguers = new ArrayList<>();
+        
+        try {
+            String sql = "select * from burguer";
+            ResultSet resultSet = statement.executeQuery(sql);
+            
+            while (resultSet.next()) {                
+                BurguerVO burguerVO = new BurguerVO(
+                        resultSet.getLong("idburguer"),
+                        resultSet.getString("name"),
+                        resultSet.getString("description"),
+                        resultSet.getDouble("price"));                    
+                burguers.add(burguerVO);
+            }
+        } catch (SQLException e) {
+             throw new SQLException("Error at selecting Burguers." + e.getMessage());                
+         } finally{
+            statement.close();
+            connection.close();
+       }
+        return burguers;
+    }
+    
+        
     
 }
