@@ -39,6 +39,10 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class BurguerDAO {
+    private static final int ID_BURGUER = 0;
+    private static final int NAME = 1;
+    private static final int DESCRIPTION = 2;
+    private static final int PRICE = 3;
     
     public void insertBurguer(BurguerVO burguerVO) throws SQLException {
         Connection connection = DatabaseConnection.getConnection();
@@ -78,6 +82,46 @@ public class BurguerDAO {
         return burguers;
     }
     
-        
+        public ArrayList<BurguerVO> selectBurguer(String query, int filter) throws SQLException{
+            Connection connection = DatabaseConnection.getConnection();
+            Statement statement = connection.createStatement();
+            ArrayList<BurguerVO> burguers = new ArrayList<>();
+            
+            try {
+                String sql = "select * from burguer ";
+                switch(filter){
+                    case ID_BURGUER:
+                        sql += "where idburguer = "+ query + ";";
+                        break;
+                    case NAME:
+                        sql += "where name like '%"+ query +"%';";
+                        break;
+                    case DESCRIPTION:
+                        sql += "where description like '%"+query+"%';";
+                        break;
+                    case PRICE:
+                        sql += "where price like '%"+query+"%';";
+                        break;
+                    default:
+                        throw new AssertionError();
+                }
+                ResultSet resultSet = statement.executeQuery(sql);
+                while (resultSet.next()) {                    
+                    BurguerVO burguerVO = new BurguerVO(
+                            resultSet.getLong("idburguer"),
+                            resultSet.getString("name"),
+                            resultSet.getString("description"),
+                            resultSet.getDouble("price"));
+                    burguers.add(burguerVO);                            
+                }
+            } catch (SQLException e) {
+                throw  new SQLException("EError at selecting burguers.");                
+            } finally{
+                connection.close();
+                statement.close();
+            }            
+                return burguers;
+        }
     
 }
+
