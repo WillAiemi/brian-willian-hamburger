@@ -31,5 +31,11 @@ package br.edu.qi.services;
  * @version 1.0
  */
 public class ServicesFactory {
+    
+    private static final ClientServices CLIENT_SERVICES = new ClientServices();
 
+    public static ClientServices getCLIENT_SERVICES() {
+        return CLIENT_SERVICES;
+    }    
+    
 }
