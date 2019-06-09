@@ -37,10 +37,13 @@ import java.sql.Statement;
  * @version 1.0
  */
 public class OrderDAO {
+        
     public void insertOrder(OrderVO order) throws SQLException{
         Connection connection = DatabaseConnection.getConnection();
         Statement statement = connection.createStatement();
+        
         try {
+            
             String sql="insert into order(idorder, idclient, date, observation, totalcost)"
                     + "values(null, '"+order.getClientVO().getIDClient()+"', '"+order.getDate()+"', '"+order.getObservation()+"', '"+order.getTotalcost()+"')";
             
@@ -48,6 +51,9 @@ public class OrderDAO {
         } catch (SQLException e) {
             throw new SQLException("Error at inserting Order."+ e.getMessage());
             
+        }finally {
+            statement.close();
+            connection.close();
         }
     }
 
