@@ -41,10 +41,10 @@ public class BurguerVO {
     
     /**
      * 
-     * @param IDBurguer 
-     * @param name
-     * @param description
-     * @param price 
+     * @param IDBurguer Get the ID Burguer
+     * @param name Get the name of Burguer
+     * @param description Get description of burguer
+     * @param price Get the price
      */
     public BurguerVO(String IDBurguer, String name, String description, double price) {
         this.IDBurguer = IDBurguer;

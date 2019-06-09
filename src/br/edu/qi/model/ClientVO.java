@@ -37,7 +37,12 @@ public class ClientVO {
 
     public ClientVO() {
     }
-
+    /**
+     * 
+     * @param IDClient Get the ID Client
+     * @param name Get the name Client
+     * @param phoneNumber Get the Number Client
+     */
     public ClientVO(long IDClient, String name, String phoneNumber) {
         this.IDClient = IDClient;
         this.name = name;

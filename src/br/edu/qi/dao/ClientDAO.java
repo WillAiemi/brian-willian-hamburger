@@ -48,7 +48,7 @@ public class ClientDAO {
             
             statement.execute(sql);
         } catch (SQLException e) {
-            throw new SQLException("Error at inserting client.");
+            throw new SQLException("Error at inserting client." + e.getMessage());
         }
     }
     

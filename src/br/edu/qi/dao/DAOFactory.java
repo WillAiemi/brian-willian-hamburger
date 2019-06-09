@@ -31,11 +31,13 @@ package br.edu.qi.dao;
  * @version 1.0
  */
 public class DAOFactory {
-    
+    private static final OrderDAO ORDER_DAO = new OrderDAO();
     private static final ClientDAO CLIENT_DAO = new ClientDAO();
 
     public static ClientDAO getClientDAO() {
         return CLIENT_DAO;
     }
+    
+    
 
 }
