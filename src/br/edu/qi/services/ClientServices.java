@@ -28,6 +28,7 @@ import br.edu.qi.dao.ClientDAO;
 import br.edu.qi.dao.DAOFactory;
 import br.edu.qi.model.ClientVO;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -40,6 +41,11 @@ public class ClientServices {
     public void insertClient(ClientVO clientVO) throws SQLException {
         ClientDAO clientDAO = DAOFactory.getClientDAO();
         clientDAO.insertClient(clientVO);
+    }
+    
+    public ArrayList<ClientVO> selectClients() throws SQLException {
+        ClientDAO clientDAO = DAOFactory.getClientDAO();
+        return clientDAO.selectClients();
     }
 
 }

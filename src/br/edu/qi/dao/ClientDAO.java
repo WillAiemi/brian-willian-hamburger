@@ -21,14 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package br.edu.qi.dao;
 
 import br.edu.qi.model.ClientVO;
 import br.edu.qi.persistency.DatabaseConnection;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
@@ -37,19 +38,45 @@ import java.sql.Statement;
  * @version 1.0
  */
 public class ClientDAO {
-    
+
     public void insertClient(ClientVO clientVO) throws SQLException {
+        Connection connection = DatabaseConnection.getConnection();
+        Statement statement = connection.createStatement();
         try {
-            Connection connection = DatabaseConnection.getConnection();
-            Statement statement = connection.createStatement();
-            
             String sql = "insert into client(idclient, name, phoneNumber)"
-                    + "values(null, '"+ clientVO.getName() +"', '"+clientVO.getPhoneNumber()+"');";
-            
+                    + "values(null, '" + clientVO.getName() + "', '" + clientVO.getPhoneNumber() + "');";
+
             statement.execute(sql);
         } catch (SQLException e) {
             throw new SQLException("Error at inserting client.");
+        } finally {
+            statement.close();
+            connection.close();
         }
     }
-    
+
+    public ArrayList<ClientVO> selectClients() throws SQLException {
+        Connection connection = DatabaseConnection.getConnection();
+        Statement statement = connection.createStatement();
+        ArrayList<ClientVO> clients = new ArrayList<>();
+        try {
+            String sql = "select * from client;";
+            ResultSet resultSet = statement.executeQuery(sql);
+            
+            while (resultSet.next()) {                
+                ClientVO clientVO = new ClientVO(
+                        resultSet.getLong("idclient"),
+                        resultSet.getString("name"),
+                        resultSet.getString("phonenumber"));
+                clients.add(clientVO);
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error at selecting clients.");
+        } finally {
+            statement.close();
+            connection.close();
+        }
+        return clients;
+    }
+
 }

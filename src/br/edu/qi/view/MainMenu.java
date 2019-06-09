@@ -55,6 +55,7 @@ public class MainMenu extends javax.swing.JFrame {
         jmiNewClient = new javax.swing.JMenuItem();
         jmiNewBurguer = new javax.swing.JMenuItem();
         jmiEdit = new javax.swing.JMenu();
+        jmiManageClients = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,8 +93,18 @@ public class MainMenu extends javax.swing.JFrame {
 
         jmbMenu.add(jmiNew);
 
-        jmiEdit.setText("Edit");
+        jmiEdit.setText("Manage");
         jmiEdit.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
+        jmiManageClients.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jmiManageClients.setText("Manage Clients");
+        jmiManageClients.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiManageClientsActionPerformed(evt);
+            }
+        });
+        jmiEdit.add(jmiManageClients);
+
         jmbMenu.add(jmiEdit);
 
         setJMenuBar(jmbMenu);
@@ -124,6 +135,12 @@ public class MainMenu extends javax.swing.JFrame {
         uINewBurguer.setVisible(true);
     }
     
+    private void insertUIClientManagerToDesktop() {
+        UIClientManager uIClientManager = new UIClientManager();
+        jdpDesktop.add(uIClientManager);
+        uIClientManager.setVisible(true);
+    }
+    
     private void jmiNewClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiNewClientActionPerformed
         insertUINewClientToDesktop();
     }//GEN-LAST:event_jmiNewClientActionPerformed
@@ -131,6 +148,10 @@ public class MainMenu extends javax.swing.JFrame {
     private void jmiNewBurguerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiNewBurguerActionPerformed
         insertUINewBurguerToDesktop();
     }//GEN-LAST:event_jmiNewBurguerActionPerformed
+
+    private void jmiManageClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiManageClientsActionPerformed
+        insertUIClientManagerToDesktop();
+    }//GEN-LAST:event_jmiManageClientsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -171,6 +192,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JDesktopPane jdpDesktop;
     private javax.swing.JMenuBar jmbMenu;
     private javax.swing.JMenu jmiEdit;
+    private javax.swing.JMenuItem jmiManageClients;
     private javax.swing.JMenu jmiNew;
     private javax.swing.JMenuItem jmiNewBurguer;
     private javax.swing.JMenuItem jmiNewClient;
