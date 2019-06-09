@@ -26,7 +26,7 @@ package br.edu.qi.view;
 import br.edu.qi.model.ClientVO;
 import br.edu.qi.services.ClientServices;
 import br.edu.qi.services.ServicesFactory;
-import br.edu.qi.util.DialogListener;
+import br.edu.qi.interfaces.DialogListener;
 import java.util.ArrayList;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
