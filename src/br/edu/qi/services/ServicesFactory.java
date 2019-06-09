@@ -34,6 +34,7 @@ public class ServicesFactory {
     
     private static final ClientServices CLIENT_SERVICES = new ClientServices();
     private static final BurguerServices BURGUER_SERVICES = new BurguerServices();
+    private static final OrderServices ORDER_SERVICES = new OrderServices();
 
     public static ClientServices getCLIENT_SERVICES() {
         return CLIENT_SERVICES;
@@ -41,6 +42,10 @@ public class ServicesFactory {
 
     public static BurguerServices getBURGUER_SERVICES() {
         return BURGUER_SERVICES;
+    }
+
+    public static OrderServices getORDER_SERVICES() {
+        return ORDER_SERVICES;
     }
     
 }
