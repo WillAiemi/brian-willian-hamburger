@@ -32,14 +32,13 @@ package br.edu.qi.dao;
  */
 public class DAOFactory {
     private static final ClientDAO CLIENT_DAO = new ClientDAO();
-    private static final BurguerDAO BURGUER_DAO = new BurguerDAO();    
+    private static final BurguerDAO BURGUER_DAO = new BurguerDAO();
+    private static final OrderDAO ORDER_DAO = new OrderDAO();
 
     public static ClientDAO getClientDAO() {
         return CLIENT_DAO;
     }
     
-    
-
     public static BurguerDAO getBurguerDAO() {
         return BURGUER_DAO;
     }
