@@ -37,6 +37,11 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class BurguerServices {
+    
+    public static final int ID_BURGUER = 0;
+    public static final int NAME = 1;
+    public static final int DESCRIPTION = 2;
+    public static final int PRICE = 3;
 
     public void insertBurguer(BurguerVO burguerVO) throws SQLException {
         BurguerDAO burguerDAO = DAOFactory.getBurguerDAO();
