@@ -38,6 +38,10 @@ import java.util.ArrayList;
  */
 public class ClientServices {
     
+    public static final int ID_CLIENT = 0;
+    public static final int NAME = 1;
+    public static final int PHONE_NUMBER = 2;
+    
     public void insertClient(ClientVO clientVO) throws SQLException {
         ClientDAO clientDAO = DAOFactory.getClientDAO();
         clientDAO.insertClient(clientVO);
@@ -47,5 +51,19 @@ public class ClientServices {
         ClientDAO clientDAO = DAOFactory.getClientDAO();
         return clientDAO.selectClients();
     }
-
+    
+    public ArrayList<ClientVO> selectClients(String query, int filter) throws SQLException {
+        ClientDAO clientDAO = DAOFactory.getClientDAO();
+        return clientDAO.selectClients(query, filter);
+    }
+    
+    public void updateClient(ClientVO clientVO) throws SQLException {
+        ClientDAO clientDAO = DAOFactory.getClientDAO();
+        clientDAO.updateClient(clientVO);
+    }
+    
+    public void deleteClient(long idClient) throws SQLException {
+        ClientDAO clientDAO = DAOFactory.getClientDAO();
+        clientDAO.deleteClient(idClient);
+    }
 }

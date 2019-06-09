@@ -38,14 +38,18 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class ClientDAO {
-
+    
+    private static final int ID_CLIENT = 0;
+    private static final int NAME = 1;
+    private static final int PHONE_NUMBER = 2;
+    
     public void insertClient(ClientVO clientVO) throws SQLException {
         Connection connection = DatabaseConnection.getConnection();
         Statement statement = connection.createStatement();
         try {
             String sql = "insert into client(idclient, name, phoneNumber)"
                     + "values(null, '" + clientVO.getName() + "', '" + clientVO.getPhoneNumber() + "');";
-
+            
             statement.execute(sql);
         } catch (SQLException e) {
             throw new SQLException("Error at inserting client.");
@@ -54,7 +58,7 @@ public class ClientDAO {
             connection.close();
         }
     }
-
+    
     public ArrayList<ClientVO> selectClients() throws SQLException {
         Connection connection = DatabaseConnection.getConnection();
         Statement statement = connection.createStatement();
@@ -78,5 +82,75 @@ public class ClientDAO {
         }
         return clients;
     }
-
+    
+        public ArrayList<ClientVO> selectClients(String query, int filter) throws SQLException {
+        Connection connection = DatabaseConnection.getConnection();
+        Statement statement = connection.createStatement();
+        ArrayList<ClientVO> clients = new ArrayList<>();
+        try {
+            String sql = "select * from client ";
+            switch (filter) {
+                case ID_CLIENT:
+                    sql += "where idclient = " + query + ";";
+                    break;
+                case NAME:
+                    sql += "where name like '%" + query + "%';";
+                    break;
+                case PHONE_NUMBER:
+                    sql += "where phonenumber like '%" + query + "%';";
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            
+            ResultSet resultSet = statement.executeQuery(sql);
+            
+            while (resultSet.next()) {                
+                ClientVO clientVO = new ClientVO(
+                        resultSet.getLong("idclient"),
+                        resultSet.getString("name"),
+                        resultSet.getString("phonenumber"));
+                clients.add(clientVO);
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error at selecting clients.");
+        } finally {
+            statement.close();
+            connection.close();
+        }
+        return clients;
+    }
+    
+    public void updateClient(ClientVO clientVO) throws SQLException {
+        Connection connection = DatabaseConnection.getConnection();
+        Statement statement = connection.createStatement();
+        try {
+            String sql = "update client set "
+                    + "name = '"+ clientVO.getName() +"', "
+                    + "phonenumber = '"+ clientVO.getPhoneNumber() +"' "
+                    + "where idclient = " + clientVO.getIDClient() + ";";
+            
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            throw new SQLException("Error at updating client.");
+        } finally {
+            statement.close();
+            connection.close();
+        }
+    }
+    
+    public void deleteClient(long idClient) throws SQLException {
+        Connection connection = DatabaseConnection.getConnection();
+        Statement statement = connection.createStatement();
+        try {
+            String sql = "delete from client where idclient = " + idClient + ";";
+            statement.execute(sql);
+        } catch (SQLException e) {
+            throw new SQLException("Error at deleting client.");
+        } finally {
+            statement.close();
+            connection.close();
+        }
+    }
+    
 }

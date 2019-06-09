@@ -26,15 +26,18 @@ package br.edu.qi.view;
 import br.edu.qi.model.ClientVO;
 import br.edu.qi.services.ClientServices;
 import br.edu.qi.services.ServicesFactory;
+import br.edu.qi.util.DialogListener;
 import java.util.ArrayList;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.event.InternalFrameListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Brian & Willian
  */
-public class UIClientManager extends javax.swing.JInternalFrame {
+public class UIClientManager extends javax.swing.JInternalFrame implements DialogListener{
 
     private DefaultTableModel defaultTableModel = new DefaultTableModel(
             new Object[][]{},
@@ -47,6 +50,7 @@ public class UIClientManager extends javax.swing.JInternalFrame {
     public UIClientManager() {
         initComponents();
         refresh();
+        jcbFilter.setSelectedIndex(1);
     }
 
     /**
@@ -58,17 +62,23 @@ public class UIClientManager extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jEditorPane1 = new javax.swing.JEditorPane();
         jlpData = new javax.swing.JLayeredPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtableClients = new javax.swing.JTable();
+        jlFilter = new javax.swing.JLabel();
+        jtQuery = new javax.swing.JTextField();
+        jcbFilter = new javax.swing.JComboBox<>();
         jlpAction = new javax.swing.JLayeredPane();
         jbRefresh = new javax.swing.JButton();
         jbClear = new javax.swing.JButton();
         jbEdit = new javax.swing.JButton();
         jbDelete = new javax.swing.JButton();
 
+        jScrollPane2.setViewportView(jEditorPane1);
+
         setClosable(true);
-        setResizable(true);
 
         jlpData.setBorder(new javax.swing.border.MatteBorder(null));
 
@@ -82,17 +92,54 @@ public class UIClientManager extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(jtableClients);
 
+        jlFilter.setText("Filter");
+
+        jtQuery.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jtQueryCaretUpdate(evt);
+            }
+        });
+
+        jcbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Name", "Phone Number" }));
+        jcbFilter.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jcbFilterItemStateChanged(evt);
+            }
+        });
+
         jlpData.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jlpData.setLayer(jlFilter, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jlpData.setLayer(jtQuery, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jlpData.setLayer(jcbFilter, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jlpDataLayout = new javax.swing.GroupLayout(jlpData);
         jlpData.setLayout(jlpDataLayout);
         jlpDataLayout.setHorizontalGroup(
             jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addGroup(jlpDataLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(jlpDataLayout.createSequentialGroup()
+                        .addComponent(jlFilter)
+                        .addGap(18, 18, 18)
+                        .addComponent(jcbFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jtQuery, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jlpDataLayout.setVerticalGroup(
             jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jlpDataLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtQuery, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlFilter)
+                    .addComponent(jcbFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jlpAction.setBorder(new javax.swing.border.MatteBorder(null));
@@ -190,7 +237,14 @@ public class UIClientManager extends javax.swing.JInternalFrame {
         clear();
         try {
             ClientServices clientServices = ServicesFactory.getCLIENT_SERVICES();
-            ArrayList<ClientVO> clients = clientServices.selectClients();
+            ArrayList<ClientVO> clients;
+            if (jtQuery.getText().isEmpty()) {
+                clients = clientServices.selectClients();
+            } else {
+                int filter = jcbFilter.getSelectedIndex();
+                String query = jtQuery.getText();
+                clients = clientServices.selectClients(query, filter);
+            }
             
             for (ClientVO client : clients) {
                 defaultTableModel.addRow(new String[]{
@@ -216,11 +270,69 @@ public class UIClientManager extends javax.swing.JInternalFrame {
     }
     
     private void edit() {
-        // to do this method
+        try {
+            int row = jtableClients.getSelectedRow();
+            if (row == -1) {
+                throw new NullPointerException("No client selected to update.");
+            }
+            ClientVO clientVO = getClientAt(row);
+            UIUpdateClient uIUpdateClient = new UIUpdateClient(null, true, clientVO, this);
+            uIUpdateClient.setVisible(true);
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Error: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    
+    private ClientVO getClientAt(int row) {
+        ClientVO clientVO = new ClientVO(
+                Long.parseLong((String) jtableClients.getValueAt(row, 0)),
+                (String)jtableClients.getValueAt(row, 1),
+                (String)jtableClients.getValueAt(row, 2)
+        );
+        return clientVO;
     }
     
     private void delete() {
-        // to do this method
+        try {
+            int row = jtableClients.getSelectedRow();
+            if (row == -1) {
+                throw new NullPointerException("No client selected for deletion.");
+            }
+            ClientVO clientVO = getClientAt(row);
+            
+            int response = JOptionPane.showConfirmDialog(
+                    this,
+                    "Are you sure you want to delete '" + clientVO.getName() + "'?",
+                    "Delete",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE
+            );
+            if (response == 0) {
+                ClientServices clientServices = ServicesFactory.getCLIENT_SERVICES();
+                clientServices.deleteClient(clientVO.getIDClient());
+                clear();
+                refresh();
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Client was deleted from the database.",
+                        "Success",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Error: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
     
     private void jbRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRefreshActionPerformed
@@ -239,15 +351,38 @@ public class UIClientManager extends javax.swing.JInternalFrame {
         delete();
     }//GEN-LAST:event_jbDeleteActionPerformed
 
+    private void jtQueryCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jtQueryCaretUpdate
+        refresh();
+    }//GEN-LAST:event_jtQueryCaretUpdate
+
+    private void jcbFilterItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcbFilterItemStateChanged
+        refresh();
+    }//GEN-LAST:event_jcbFilterItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton jbClear;
     private javax.swing.JButton jbDelete;
     private javax.swing.JButton jbEdit;
     private javax.swing.JButton jbRefresh;
+    private javax.swing.JComboBox<String> jcbFilter;
+    private javax.swing.JLabel jlFilter;
     private javax.swing.JLayeredPane jlpAction;
     private javax.swing.JLayeredPane jlpData;
+    private javax.swing.JTextField jtQuery;
     private javax.swing.JTable jtableClients;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void closeJDialog(JDialog jDialog) {
+        if (jDialog instanceof UIUpdateClient) {
+            refresh();
+            jDialog.dispose();
+        }
+    }
+
+    
 }
