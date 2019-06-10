@@ -21,8 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package br.edu.qi.model;
+
+import br.edu.qi.util.Utilities;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 /**
  *
@@ -78,13 +82,14 @@ public class OrderListVO {
     public void setObservation(String observation) {
         this.observation = observation;
     }
-    
+
     /**
      * Return the subtotal of the order
      * @return Quantity times the price of the burger.
      */
     public double getSubtotal() {
-        return this.quantity * this.burgerVO.getPrice();
+        double subtotal = this.quantity * this.burgerVO.getPrice();
+        return Utilities.round(subtotal, 2);
     }
 
     @Override
@@ -94,8 +99,7 @@ public class OrderListVO {
                 + "Burger: " + burgerVO.getName() + "\n"
                 + "Quantity: " + quantity + "\n"
                 + "Observation: " + observation + "\n"
-                + "Subtotal: " + getSubtotal() + "\n";
+                + "Subtotal: " + Utilities.formatToBRL(getSubtotal()) + "\n";
     }
-    
-    
+
 }
