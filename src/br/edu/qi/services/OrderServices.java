@@ -43,28 +43,25 @@ public class OrderServices {
     public static final int DATE = 2;
     public static final int OBSERVATION = 3;
     
+    private static final OrderDAO ORDER_DAO = DAOFactory.getOrderDAO();
+    
     public void insertOrder(OrderVO orderVO) throws SQLException {
-        OrderDAO orderDAO = DAOFactory.getOrderDAO();
-        orderDAO.insertOrder(orderVO);
+        ORDER_DAO.insertOrder(orderVO);
     }
     
     public ArrayList<OrderVO> selectOrders() throws SQLException {
-        OrderDAO orderDAO = DAOFactory.getOrderDAO();
-        return orderDAO.selectOrders();
+        return ORDER_DAO.selectOrders();
     }
     
     public ArrayList<OrderVO> selectOrders(String query, int filter) throws SQLException {
-        OrderDAO orderDAO = DAOFactory.getOrderDAO();
-        return orderDAO.selectOrders(query, filter);
+        return ORDER_DAO.selectOrders(query, filter);
     }
     
     public void updateOrder(OrderVO orderVO) throws SQLException {
-        OrderDAO orderDAO = DAOFactory.getOrderDAO();
-        orderDAO.updateOrder(orderVO);
+        ORDER_DAO.updateOrder(orderVO);
     }
     
     public void deleteOrder(long idorder) throws SQLException {
-        OrderDAO orderDAO = DAOFactory.getOrderDAO();
-        orderDAO.deleteOrder(idorder);
+        ORDER_DAO.deleteOrder(idorder);
     }
 }

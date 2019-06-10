@@ -42,28 +42,25 @@ public class ClientServices {
     public static final int NAME = 1;
     public static final int PHONE_NUMBER = 2;
     
+    private static final ClientDAO CLIENT_DAO = DAOFactory.getClientDAO();
+    
     public void insertClient(ClientVO clientVO) throws SQLException {
-        ClientDAO clientDAO = DAOFactory.getClientDAO();
-        clientDAO.insertClient(clientVO);
+        CLIENT_DAO.insertClient(clientVO);
     }
     
     public ArrayList<ClientVO> selectClients() throws SQLException {
-        ClientDAO clientDAO = DAOFactory.getClientDAO();
-        return clientDAO.selectClients();
+        return CLIENT_DAO.selectClients();
     }
     
     public ArrayList<ClientVO> selectClients(String query, int filter) throws SQLException {
-        ClientDAO clientDAO = DAOFactory.getClientDAO();
-        return clientDAO.selectClients(query, filter);
+        return CLIENT_DAO.selectClients(query, filter);
     }
     
     public void updateClient(ClientVO clientVO) throws SQLException {
-        ClientDAO clientDAO = DAOFactory.getClientDAO();
-        clientDAO.updateClient(clientVO);
+        CLIENT_DAO.updateClient(clientVO);
     }
     
     public void deleteClient(long idClient) throws SQLException {
-        ClientDAO clientDAO = DAOFactory.getClientDAO();
-        clientDAO.deleteClient(idClient);
+        CLIENT_DAO.deleteClient(idClient);
     }
 }

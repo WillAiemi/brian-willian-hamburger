@@ -42,20 +42,19 @@ public class BurguerServices {
     public static final int NAME = 1;
     public static final int DESCRIPTION = 2;
     public static final int PRICE = 3;
+    
+    private static final BurguerDAO BURGUER_DAO = DAOFactory.getBurguerDAO();
 
     public void insertBurguer(BurguerVO burguerVO) throws SQLException {
-        BurguerDAO burguerDAO = DAOFactory.getBurguerDAO();
-        burguerDAO.insertBurguer(burguerVO);
+        BURGUER_DAO.insertBurguer(burguerVO);
     }
     
     public ArrayList<BurguerVO> selectBurguers() throws SQLException {
-        BurguerDAO burguerDAO = DAOFactory.getBurguerDAO();
-        return burguerDAO.selectsBurguers();
+        return BURGUER_DAO.selectsBurguers();
     }
     
     public ArrayList<BurguerVO> selectBurguers(String query, int filter) throws SQLException {
-        BurguerDAO burguerDAO = DAOFactory.getBurguerDAO();
-        return burguerDAO.selectBurguers(query, filter);
+        return BURGUER_DAO.selectBurguers(query, filter);
     }
     
 }
