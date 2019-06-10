@@ -166,6 +166,7 @@ public class MainMenu extends javax.swing.JFrame implements InternalFrameListene
             uINewBurger = new UINewBurger();
             jdpDesktop.add(uINewBurger);
             uINewBurger.setVisible(true);
+            uINewBurger.addInternalFrameListener(this);
         }
     }
 
