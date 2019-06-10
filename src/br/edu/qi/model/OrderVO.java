@@ -52,6 +52,18 @@ public class OrderVO {
         this.observation = observation;
     }
 
+    /**
+     * Constructor without ID
+     * @param clientVO
+     * @param date
+     * @param observation 
+     */
+    public OrderVO(ClientVO clientVO, String date, String observation) {
+        this.clientVO = clientVO;
+        this.date = date;
+        this.observation = observation;
+    }
+
     public long getIDOrder() {
         return IDOrder;
     }

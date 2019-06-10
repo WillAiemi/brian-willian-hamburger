@@ -53,12 +53,15 @@ public class OrderListDAO {
         Connection connection = DatabaseConnection.getConnection();
         Statement statement = connection.createStatement();
         try {
+            String observation = orderListVO.getObservation() == null
+                    ? "" : orderListVO.getObservation();
+            
             String sql = "insert into orderlist(idorder, idburger, quantity, observation)"
                     + "values("
                     + orderListVO.getOrderVO().getIDOrder() + ","
                     + orderListVO.getBurgerVO().getIDBurger() + ","
                     + orderListVO.getQuantity() + ","
-                    + "'" + orderListVO.getObservation() + "');";
+                    + "'" + observation + "');";
 
             statement.execute(sql);
         } catch (SQLException e) {
@@ -168,11 +171,13 @@ public class OrderListDAO {
         Connection connection = DatabaseConnection.getConnection();
         Statement statement = connection.createStatement();
         try {
+            String observation = orderListVO.getObservation() == null
+                    ? "" : orderListVO.getObservation();
             String sql = "update orderlistVO set "
                     + "idorder = " + orderListVO.getOrderVO().getIDOrder() + ","
                     + "idburger = " + orderListVO.getBurgerVO().getIDBurger() + ","
                     + "quantity = " + orderListVO.getQuantity() + ","
-                    + "observation = '" + orderListVO.getObservation() + "' "
+                    + "observation = '" + observation + "' "
                     + "where idorder = " + orderListVO.getOrderVO().getIDOrder() + " "
                     + "and idburger = " + orderListVO.getBurgerVO().getIDBurger() + ";";
             

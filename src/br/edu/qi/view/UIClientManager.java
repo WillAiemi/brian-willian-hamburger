@@ -30,7 +30,6 @@ import br.edu.qi.interfaces.DialogListener;
 import java.util.ArrayList;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.event.InternalFrameListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -39,7 +38,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class UIClientManager extends javax.swing.JInternalFrame implements DialogListener{
 
-    private DefaultTableModel defaultTableModel = new DefaultTableModel(
+    private final DefaultTableModel defaultTableModel = new DefaultTableModel(
             new Object[][]{},
             new Object[]{"ID", "Name", "Phone Number"}
     );
@@ -62,8 +61,6 @@ public class UIClientManager extends javax.swing.JInternalFrame implements Dialo
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jEditorPane1 = new javax.swing.JEditorPane();
         jlpData = new javax.swing.JLayeredPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtableClients = new javax.swing.JTable();
@@ -75,8 +72,6 @@ public class UIClientManager extends javax.swing.JInternalFrame implements Dialo
         jbClear = new javax.swing.JButton();
         jbEdit = new javax.swing.JButton();
         jbDelete = new javax.swing.JButton();
-
-        jScrollPane2.setViewportView(jEditorPane1);
 
         setClosable(true);
 
@@ -361,9 +356,7 @@ public class UIClientManager extends javax.swing.JInternalFrame implements Dialo
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton jbClear;
     private javax.swing.JButton jbDelete;
     private javax.swing.JButton jbEdit;

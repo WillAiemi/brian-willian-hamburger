@@ -54,6 +54,7 @@ public class MainMenu extends javax.swing.JFrame {
         jmiNew = new javax.swing.JMenu();
         jmiNewClient = new javax.swing.JMenuItem();
         jmiNewBurger = new javax.swing.JMenuItem();
+        jmiNewOrder = new javax.swing.JMenuItem();
         jmiEdit = new javax.swing.JMenu();
         jmiManageClients = new javax.swing.JMenuItem();
 
@@ -90,6 +91,15 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
         jmiNew.add(jmiNewBurger);
+
+        jmiNewOrder.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
+        jmiNewOrder.setText("New Order");
+        jmiNewOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiNewOrderActionPerformed(evt);
+            }
+        });
+        jmiNew.add(jmiNewOrder);
 
         jmbMenu.add(jmiNew);
 
@@ -141,6 +151,12 @@ public class MainMenu extends javax.swing.JFrame {
         uIClientManager.setVisible(true);
     }
     
+    private void insertUINewOrderToDesktop() {
+        UINewOrder uiNewOrder = new UINewOrder();
+        jdpDesktop.add(uiNewOrder);
+        uiNewOrder.show();
+    }
+    
     private void jmiNewClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiNewClientActionPerformed
         insertUINewClientToDesktop();
     }//GEN-LAST:event_jmiNewClientActionPerformed
@@ -152,6 +168,10 @@ public class MainMenu extends javax.swing.JFrame {
     private void jmiManageClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiManageClientsActionPerformed
         insertUIClientManagerToDesktop();
     }//GEN-LAST:event_jmiManageClientsActionPerformed
+
+    private void jmiNewOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiNewOrderActionPerformed
+        insertUINewOrderToDesktop();
+    }//GEN-LAST:event_jmiNewOrderActionPerformed
 
     /**
      * @param args the command line arguments
@@ -196,5 +216,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenu jmiNew;
     private javax.swing.JMenuItem jmiNewBurger;
     private javax.swing.JMenuItem jmiNewClient;
+    private javax.swing.JMenuItem jmiNewOrder;
     // End of variables declaration//GEN-END:variables
 }

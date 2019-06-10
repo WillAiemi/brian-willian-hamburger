@@ -27,6 +27,7 @@ package br.edu.qi.util;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 
 /**
  *
@@ -50,5 +51,9 @@ public class Utilities {
     
     public static String formatToBRL(double value) {
         return DECIMAL_FORMAT_BRL.format(value);
+    }
+    
+    public static LocalDate getDate() {
+        return LocalDate.now();
     }
 }
