@@ -23,11 +23,11 @@
  */
 package br.edu.qi.dao;
 
-import br.edu.qi.model.BurguerVO;
+import br.edu.qi.model.BurgerVO;
 import br.edu.qi.model.OrderListVO;
 import br.edu.qi.model.OrderVO;
 import br.edu.qi.persistency.DatabaseConnection;
-import br.edu.qi.services.BurguerServices;
+import br.edu.qi.services.BurgerServices;
 import br.edu.qi.services.OrderServices;
 import br.edu.qi.services.ServicesFactory;
 import java.sql.Connection;
@@ -45,7 +45,7 @@ import java.util.ArrayList;
 public class OrderListDAO {
 
     private static final int ID_ORDER = 0;
-    private static final int ID_BURGUER = 1;
+    private static final int ID_BURGER = 1;
     private static final int QUANTITY = 2;
     private static final int OBSERVATION = 3;
 
@@ -53,10 +53,10 @@ public class OrderListDAO {
         Connection connection = DatabaseConnection.getConnection();
         Statement statement = connection.createStatement();
         try {
-            String sql = "insert into orderlist(idorder, idburguer, quantity, observation)"
+            String sql = "insert into orderlist(idorder, idburger, quantity, observation)"
                     + "values("
                     + orderListVO.getOrderVO().getIDOrder() + ","
-                    + orderListVO.getBurguerVO().getIDBurguer() + ","
+                    + orderListVO.getBurgerVO().getIDBurger() + ","
                     + orderListVO.getQuantity() + ","
                     + "'" + orderListVO.getObservation() + "');";
 
@@ -77,7 +77,7 @@ public class OrderListDAO {
             String sql = "select * from orderlist;";
             ResultSet resultSet = statement.executeQuery(sql);
             OrderServices orderServices = ServicesFactory.getORDER_SERVICES();
-            BurguerServices burguerServices = ServicesFactory.getBURGUER_SERVICES();
+            BurgerServices burgerServices = ServicesFactory.getBURGER_SERVICES();
 
             while (resultSet.next()) {
                 OrderVO order = orderServices.selectOrders(
@@ -85,14 +85,14 @@ public class OrderListDAO {
                         OrderServices.ID_ORDER
                 ).get(0);
 
-                BurguerVO burguer = burguerServices.selectBurguers(
-                        String.valueOf(resultSet.getLong("idburguer")),
-                        BurguerServices.ID_BURGUER
+                BurgerVO burger = burgerServices.selectBurgers(
+                        String.valueOf(resultSet.getLong("idburger")),
+                        BurgerServices.ID_BURGER
                 ).get(0);
 
                 OrderListVO orderListVO = new OrderListVO(
                         order,
-                        burguer,
+                        burger,
                         resultSet.getInt("quantity"),
                         resultSet.getString("observation")
                 );
@@ -118,8 +118,8 @@ public class OrderListDAO {
                 case ID_ORDER:
                     sql += "where idorder = " + query + ";";
                     break;
-                case ID_BURGUER:
-                    sql += "where idburguer = " + query + ";";
+                case ID_BURGER:
+                    sql += "where idburger = " + query + ";";
                     break;
                 case QUANTITY:
                     sql += "where quantity like '%" + query + "%';";
@@ -133,7 +133,7 @@ public class OrderListDAO {
 
             ResultSet resultSet = statement.executeQuery(sql);
             OrderServices orderServices = ServicesFactory.getORDER_SERVICES();
-            BurguerServices burguerServices = ServicesFactory.getBURGUER_SERVICES();
+            BurgerServices burgerServices = ServicesFactory.getBURGER_SERVICES();
 
             while (resultSet.next()) {
                 OrderVO order = orderServices.selectOrders(
@@ -141,14 +141,14 @@ public class OrderListDAO {
                         OrderServices.ID_ORDER
                 ).get(0);
 
-                BurguerVO burguer = burguerServices.selectBurguers(
-                        String.valueOf(resultSet.getLong("idburguer")),
-                        BurguerServices.ID_BURGUER
+                BurgerVO burger = burgerServices.selectBurgers(
+                        String.valueOf(resultSet.getLong("idburger")),
+                        BurgerServices.ID_BURGER
                 ).get(0);
 
                 OrderListVO orderListVO = new OrderListVO(
                         order,
-                        burguer,
+                        burger,
                         resultSet.getInt("quantity"),
                         resultSet.getString("observation")
                 );
@@ -170,11 +170,11 @@ public class OrderListDAO {
         try {
             String sql = "update orderlistVO set "
                     + "idorder = " + orderListVO.getOrderVO().getIDOrder() + ","
-                    + "idburguer = " + orderListVO.getBurguerVO().getIDBurguer() + ","
+                    + "idburger = " + orderListVO.getBurgerVO().getIDBurger() + ","
                     + "quantity = " + orderListVO.getQuantity() + ","
                     + "observation = '" + orderListVO.getObservation() + "' "
                     + "where idorder = " + orderListVO.getOrderVO().getIDOrder() + " "
-                    + "and idburguer = " + orderListVO.getBurguerVO().getIDBurguer() + ";";
+                    + "and idburger = " + orderListVO.getBurgerVO().getIDBurger() + ";";
             
             statement.executeUpdate(sql);
         } catch (SQLException e) {
@@ -185,13 +185,13 @@ public class OrderListDAO {
         }
     }
     
-    public void deleteOrderList(long idOrder, long idBurguer) throws SQLException {
+    public void deleteOrderList(long idOrder, long idBurger) throws SQLException {
         Connection connection = DatabaseConnection.getConnection();
         Statement statement = connection.createStatement();
         try {
             String sql = "delete from orderlist "
                     + "where idorder = " + idOrder + " "
-                    + "and idburguer = " + idBurguer + ";";
+                    + "and idburger = " + idBurger + ";";
             statement.execute(sql);
         } catch (SQLException e) {
             throw new SQLException("Error at deleting orderlist.");

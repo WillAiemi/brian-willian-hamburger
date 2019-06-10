@@ -32,7 +32,7 @@ package br.edu.qi.dao;
  */
 public class DAOFactory {
     private static final ClientDAO CLIENT_DAO = new ClientDAO();
-    private static final BurguerDAO BURGUER_DAO = new BurguerDAO();
+    private static final BurgerDAO BURGER_DAO = new BurgerDAO();
     private static final OrderDAO ORDER_DAO = new OrderDAO();
     private static final OrderListDAO ORDER_LIST_DAO = new OrderListDAO();
 
@@ -40,8 +40,8 @@ public class DAOFactory {
         return CLIENT_DAO;
     }
     
-    public static BurguerDAO getBurguerDAO() {
-        return BURGUER_DAO;
+    public static BurgerDAO getBurgerDAO() {
+        return BURGER_DAO;
     }
 
     public static OrderDAO getOrderDAO() {

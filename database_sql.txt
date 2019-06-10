@@ -13,24 +13,24 @@ observation varchar(250),
 primary key(idorder),
 foreign key(idclient) references client(idclient));
 
-create table burguer(
-idburguer bigint auto_increment,
+create table burger(
+idburger bigint auto_increment,
 name varchar(50) not null,
 description varchar(250) not null,
 price double not null,
-primary key(idburguer)
+primary key(idburger)
 );
 
 create table orderlist(
 idorder bigint not null,
-idburguer bigint not null,
+idburger bigint not null,
 quantity int not null,
 observation varchar(100),
-primary key(idorder,idburguer),
+primary key(idorder,idburger),
 foreign key(idorder) references `order`(idorder),
-foreign key(idburguer) references burguer(idburguer));
+foreign key(idburger) references burger(idburger));
 
 drop table orderlist;
 drop table `order`;
-drop table burguer;
+drop table burger;
 drop table client;

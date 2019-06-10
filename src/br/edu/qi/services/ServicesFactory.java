@@ -33,15 +33,15 @@ package br.edu.qi.services;
 public class ServicesFactory {
     
     private static final ClientServices CLIENT_SERVICES = new ClientServices();
-    private static final BurguerServices BURGUER_SERVICES = new BurguerServices();
+    private static final BurgerServices BURGER_SERVICES = new BurgerServices();
     private static final OrderServices ORDER_SERVICES = new OrderServices();
 
     public static ClientServices getCLIENT_SERVICES() {
         return CLIENT_SERVICES;
     }
 
-    public static BurguerServices getBURGUER_SERVICES() {
-        return BURGUER_SERVICES;
+    public static BurgerServices getBURGER_SERVICES() {
+        return BURGER_SERVICES;
     }
 
     public static OrderServices getORDER_SERVICES() {

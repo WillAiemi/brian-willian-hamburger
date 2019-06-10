@@ -56,8 +56,8 @@ public class OrderListServices {
         ORDER_LIST_DAO.updateOrderList(orderListVO);
     }
     
-    public void deleteOrderList(long idOrder, long idBurguer) throws SQLException {
-        ORDER_LIST_DAO.deleteOrderList(idOrder, idBurguer);
+    public void deleteOrderList(long idOrder, long idBurger) throws SQLException {
+        ORDER_LIST_DAO.deleteOrderList(idOrder, idBurger);
     }
     
 }

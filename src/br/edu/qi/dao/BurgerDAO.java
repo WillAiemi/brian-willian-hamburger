@@ -24,7 +24,7 @@
 
 package br.edu.qi.dao;
 
-import br.edu.qi.model.BurguerVO;
+import br.edu.qi.model.BurgerVO;
 import br.edu.qi.persistency.DatabaseConnection;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -38,60 +38,60 @@ import java.util.ArrayList;
  * @since 08/06/2019 - 23:42:38
  * @version 1.0
  */
-public class BurguerDAO {
-    private static final int ID_BURGUER = 0;
+public class BurgerDAO {
+    private static final int ID_BURGER = 0;
     private static final int NAME = 1;
     private static final int DESCRIPTION = 2;
     private static final int PRICE = 3;
     
-    public void insertBurguer(BurguerVO burguerVO) throws SQLException {
+    public void insertBurger(BurgerVO burgerVO) throws SQLException {
         Connection connection = DatabaseConnection.getConnection();
         Statement statement = connection.createStatement();
         try {
-            String sql = "insert into burguer(idburguer, name, description, price)"
-                    + "values(null, '"+ burguerVO.getName() +"', '"+ burguerVO.getDescription() +"', "+burguerVO.getPrice()+")";
+            String sql = "insert into burger(idburger, name, description, price)"
+                    + "values(null, '"+ burgerVO.getName() +"', '"+ burgerVO.getDescription() +"', "+burgerVO.getPrice()+")";
             statement.execute(sql);
         } catch (SQLException e) {
-            throw new SQLException("Error when inserting burguer to the database.");
+            throw new SQLException("Error when inserting burger to the database.");
         }
     }
     
-    public ArrayList<BurguerVO> selectsBurguers() throws SQLException{
+    public ArrayList<BurgerVO> selectsBurgers() throws SQLException{
         Connection connection = DatabaseConnection.getConnection();
         Statement statement = connection.createStatement();
-        ArrayList<BurguerVO> burguers = new ArrayList<>();
+        ArrayList<BurgerVO> burgers = new ArrayList<>();
         
         try {
-            String sql = "select * from burguer";
+            String sql = "select * from burger";
             ResultSet resultSet = statement.executeQuery(sql);
             
             while (resultSet.next()) {                
-                BurguerVO burguerVO = new BurguerVO(
-                        resultSet.getLong("idburguer"),
+                BurgerVO burgerVO = new BurgerVO(
+                        resultSet.getLong("idburger"),
                         resultSet.getString("name"),
                         resultSet.getString("description"),
                         resultSet.getDouble("price"));                    
-                burguers.add(burguerVO);
+                burgers.add(burgerVO);
             }
         } catch (SQLException e) {
-             throw new SQLException("Error at selecting Burguers." + e.getMessage());                
+             throw new SQLException("Error at selecting Burgers." + e.getMessage());                
          } finally{
             statement.close();
             connection.close();
        }
-        return burguers;
+        return burgers;
     }
     
-        public ArrayList<BurguerVO> selectBurguers(String query, int filter) throws SQLException{
+        public ArrayList<BurgerVO> selectBurgers(String query, int filter) throws SQLException{
             Connection connection = DatabaseConnection.getConnection();
             Statement statement = connection.createStatement();
-            ArrayList<BurguerVO> burguers = new ArrayList<>();
+            ArrayList<BurgerVO> burgers = new ArrayList<>();
             
             try {
-                String sql = "select * from burguer ";
+                String sql = "select * from burger ";
                 switch(filter){
-                    case ID_BURGUER:
-                        sql += "where idburguer = "+ query + ";";
+                    case ID_BURGER:
+                        sql += "where idburger = "+ query + ";";
                         break;
                     case NAME:
                         sql += "where name like '%"+ query +"%';";
@@ -107,20 +107,20 @@ public class BurguerDAO {
                 }
                 ResultSet resultSet = statement.executeQuery(sql);
                 while (resultSet.next()) {                    
-                    BurguerVO burguerVO = new BurguerVO(
-                            resultSet.getLong("idburguer"),
+                    BurgerVO burgerVO = new BurgerVO(
+                            resultSet.getLong("idburger"),
                             resultSet.getString("name"),
                             resultSet.getString("description"),
                             resultSet.getDouble("price"));
-                    burguers.add(burguerVO);                            
+                    burgers.add(burgerVO);                            
                 }
             } catch (SQLException e) {
-                throw  new SQLException("EError at selecting burguers.");                
+                throw  new SQLException("EError at selecting burgers.");                
             } finally{
                 connection.close();
                 statement.close();
             }            
-                return burguers;
+                return burgers;
         }
     
 }

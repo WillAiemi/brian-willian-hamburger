@@ -24,9 +24,9 @@
 
 package br.edu.qi.services;
 
-import br.edu.qi.dao.BurguerDAO;
+import br.edu.qi.dao.BurgerDAO;
 import br.edu.qi.dao.DAOFactory;
-import br.edu.qi.model.BurguerVO;
+import br.edu.qi.model.BurgerVO;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -36,25 +36,25 @@ import java.util.ArrayList;
  * @since 08/06/2019 - 23:51:31
  * @version 1.0
  */
-public class BurguerServices {
+public class BurgerServices {
     
-    public static final int ID_BURGUER = 0;
+    public static final int ID_BURGER = 0;
     public static final int NAME = 1;
     public static final int DESCRIPTION = 2;
     public static final int PRICE = 3;
     
-    private static final BurguerDAO BURGUER_DAO = DAOFactory.getBurguerDAO();
+    private static final BurgerDAO BURGER_DAO = DAOFactory.getBurgerDAO();
 
-    public void insertBurguer(BurguerVO burguerVO) throws SQLException {
-        BURGUER_DAO.insertBurguer(burguerVO);
+    public void insertBurger(BurgerVO burgerVO) throws SQLException {
+        BURGER_DAO.insertBurger(burgerVO);
     }
     
-    public ArrayList<BurguerVO> selectBurguers() throws SQLException {
-        return BURGUER_DAO.selectsBurguers();
+    public ArrayList<BurgerVO> selectBurgers() throws SQLException {
+        return BURGER_DAO.selectsBurgers();
     }
     
-    public ArrayList<BurguerVO> selectBurguers(String query, int filter) throws SQLException {
-        return BURGUER_DAO.selectBurguers(query, filter);
+    public ArrayList<BurgerVO> selectBurgers(String query, int filter) throws SQLException {
+        return BURGER_DAO.selectBurgers(query, filter);
     }
     
 }

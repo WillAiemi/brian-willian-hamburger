@@ -23,8 +23,8 @@
  */
 package br.edu.qi.view;
 
-import br.edu.qi.model.BurguerVO;
-import br.edu.qi.services.BurguerServices;
+import br.edu.qi.model.BurgerVO;
+import br.edu.qi.services.BurgerServices;
 import br.edu.qi.services.ServicesFactory;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -34,12 +34,12 @@ import javax.swing.JTextField;
  *
  * @author Brian & Willian
  */
-public class UINewBurguer extends javax.swing.JInternalFrame {
+public class UINewBurger extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form UINewBurguer
+     * Creates new form UINewBurger
      */
-    public UINewBurguer() {
+    public UINewBurger() {
         initComponents();
     }
 
@@ -220,17 +220,17 @@ public class UINewBurguer extends javax.swing.JInternalFrame {
             testTextField(jtDescription, "Description text field is empty.");
             testTextField(jtPrice, "Price text field is empty.");
             
-            BurguerVO burguerVO = new BurguerVO(
+            BurgerVO burgerVO = new BurgerVO(
                     jtName.getText(),
                     jtDescription.getText(),
                     Double.parseDouble(jtPrice.getText())
             );
-            BurguerServices burguerServices = ServicesFactory.getBURGUER_SERVICES();
-            burguerServices.insertBurguer(burguerVO);
+            BurgerServices burgerServices = ServicesFactory.getBURGER_SERVICES();
+            burgerServices.insertBurger(burgerVO);
             
             JOptionPane.showMessageDialog(
                     this, 
-                    "Burguer has been added to the database.",
+                    "Burger has been added to the database.",
                     "Success!",
                     JOptionPane.INFORMATION_MESSAGE
             );

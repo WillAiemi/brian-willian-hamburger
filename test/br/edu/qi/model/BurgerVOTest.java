@@ -34,23 +34,23 @@ import org.junit.Test;
  *
  * @author Brian & Willian
  */
-public class BurguerVOTest {
-    public static BurguerVO burguerVO= new BurguerVO();            
+public class BurgerVOTest {
+    public static BurgerVO burgerVO= new BurgerVO();            
     
-    public BurguerVOTest() {
+    public BurgerVOTest() {
     }
     
     @BeforeClass
     public static void setUpClass() {
-        burguerVO.setIDBurguer(1);
-        burguerVO.setName("Tradicional");
-        burguerVO.setPrice(20.5);
-        burguerVO.setDescription("Melhor da região");
+        burgerVO.setIDBurger(1);
+        burgerVO.setName("Tradicional");
+        burgerVO.setPrice(20.5);
+        burgerVO.setDescription("Melhor da região");
     }
     
     @AfterClass
     public static void tearDownClass() {
-        burguerVO.toString();
+        burgerVO.toString();
     }
     
     @Before
@@ -62,63 +62,63 @@ public class BurguerVOTest {
     }
 
     /**
-     * Test of getIDBurguer method, of class BurguerVO.
+     * Test of getIDBurger method, of class BurgerVO.
      */
     @Test
-    public void testGetIDBurguer() {
+    public void testGetIDBurger() {
     }
 
     /**
-     * Test of setIDBurguer method, of class BurguerVO.
+     * Test of setIDBurger method, of class BurgerVO.
      */
     @Test
-    public void testSetIDBurguer() {
+    public void testSetIDBurger() {
     }
 
     /**
-     * Test of getName method, of class BurguerVO.
+     * Test of getName method, of class BurgerVO.
      */
     @Test
     public void testGetName() {
     }
 
     /**
-     * Test of setName method, of class BurguerVO.
+     * Test of setName method, of class BurgerVO.
      */
     @Test
     public void testSetName() {
     }
 
     /**
-     * Test of getDescription method, of class BurguerVO.
+     * Test of getDescription method, of class BurgerVO.
      */
     @Test
     public void testGetDescription() {
     }
 
     /**
-     * Test of setDescription method, of class BurguerVO.
+     * Test of setDescription method, of class BurgerVO.
      */
     @Test
     public void testSetDescription() {
     }
 
     /**
-     * Test of getPrice method, of class BurguerVO.
+     * Test of getPrice method, of class BurgerVO.
      */
     @Test
     public void testGetPrice() {
     }
 
     /**
-     * Test of setPrice method, of class BurguerVO.
+     * Test of setPrice method, of class BurgerVO.
      */
     @Test
     public void testSetPrice() {
     }
 
     /**
-     * Test of toString method, of class BurguerVO.
+     * Test of toString method, of class BurgerVO.
      */
     @Test
     public void testToString() {

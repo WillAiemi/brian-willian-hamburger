@@ -53,7 +53,7 @@ public class MainMenu extends javax.swing.JFrame {
         jmbMenu = new javax.swing.JMenuBar();
         jmiNew = new javax.swing.JMenu();
         jmiNewClient = new javax.swing.JMenuItem();
-        jmiNewBurguer = new javax.swing.JMenuItem();
+        jmiNewBurger = new javax.swing.JMenuItem();
         jmiEdit = new javax.swing.JMenu();
         jmiManageClients = new javax.swing.JMenuItem();
 
@@ -82,14 +82,14 @@ public class MainMenu extends javax.swing.JFrame {
         });
         jmiNew.add(jmiNewClient);
 
-        jmiNewBurguer.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
-        jmiNewBurguer.setText("New Burguer");
-        jmiNewBurguer.addActionListener(new java.awt.event.ActionListener() {
+        jmiNewBurger.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        jmiNewBurger.setText("New Burger");
+        jmiNewBurger.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiNewBurguerActionPerformed(evt);
+                jmiNewBurgerActionPerformed(evt);
             }
         });
-        jmiNew.add(jmiNewBurguer);
+        jmiNew.add(jmiNewBurger);
 
         jmbMenu.add(jmiNew);
 
@@ -129,10 +129,10 @@ public class MainMenu extends javax.swing.JFrame {
         uINewClient.setVisible(true);
     }
     
-    private void insertUINewBurguerToDesktop() {
-        UINewBurguer uINewBurguer = new UINewBurguer();
-        jdpDesktop.add(uINewBurguer);
-        uINewBurguer.setVisible(true);
+    private void insertUINewBurgerToDesktop() {
+        UINewBurger uINewBurger = new UINewBurger();
+        jdpDesktop.add(uINewBurger);
+        uINewBurger.setVisible(true);
     }
     
     private void insertUIClientManagerToDesktop() {
@@ -145,9 +145,9 @@ public class MainMenu extends javax.swing.JFrame {
         insertUINewClientToDesktop();
     }//GEN-LAST:event_jmiNewClientActionPerformed
 
-    private void jmiNewBurguerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiNewBurguerActionPerformed
-        insertUINewBurguerToDesktop();
-    }//GEN-LAST:event_jmiNewBurguerActionPerformed
+    private void jmiNewBurgerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiNewBurgerActionPerformed
+        insertUINewBurgerToDesktop();
+    }//GEN-LAST:event_jmiNewBurgerActionPerformed
 
     private void jmiManageClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiManageClientsActionPerformed
         insertUIClientManagerToDesktop();
@@ -194,7 +194,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenu jmiEdit;
     private javax.swing.JMenuItem jmiManageClients;
     private javax.swing.JMenu jmiNew;
-    private javax.swing.JMenuItem jmiNewBurguer;
+    private javax.swing.JMenuItem jmiNewBurger;
     private javax.swing.JMenuItem jmiNewClient;
     // End of variables declaration//GEN-END:variables
 }

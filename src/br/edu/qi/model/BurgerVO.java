@@ -30,42 +30,42 @@ package br.edu.qi.model;
  * @since 07/06/2019 - 22:47
  * @version 1.0
  */
-public class BurguerVO {
-    private long IDBurguer;
+public class BurgerVO {
+    private long IDBurger;
     private String name;
     private String description;
     private double price;
 
-    public BurguerVO() {
+    public BurgerVO() {
     }
     
     /**
      * 
-     * @param IDBurguer Get the ID Burguer
-     * @param name Get the name of Burguer
-     * @param description Get description of burguer
+     * @param IDBurger Get the ID Burger
+     * @param name Get the name of Burger
+     * @param description Get description of burger
      * @param price Get the price
      */
     
-    public BurguerVO(long IDBurguer, String name, String description, double price) {
-        this.IDBurguer = IDBurguer;
+    public BurgerVO(long IDBurger, String name, String description, double price) {
+        this.IDBurger = IDBurger;
         this.name = name;
         this.description = description;
         this.price = price;
     }
 
-    public BurguerVO(String name, String description, double price) {
+    public BurgerVO(String name, String description, double price) {
         this.name = name;
         this.description = description;
         this.price = price;
     }
 
-    public long getIDBurguer() {
-        return IDBurguer;
+    public long getIDBurger() {
+        return IDBurger;
     }
 
-    public void setIDBurguer(long IDBurguer) {
-        this.IDBurguer = IDBurguer;
+    public void setIDBurger(long IDBurger) {
+        this.IDBurger = IDBurger;
     }
     
     public String getName() {

@@ -33,16 +33,16 @@ package br.edu.qi.model;
 public class OrderListVO {
 
     private OrderVO orderVO;
-    private BurguerVO burguerVO;
+    private BurgerVO burgerVO;
     private int quantity;
     private String observation;
 
     public OrderListVO() {
     }
 
-    public OrderListVO(OrderVO orderVO, BurguerVO burguerVO, int quantity, String observation) {
+    public OrderListVO(OrderVO orderVO, BurgerVO burgerVO, int quantity, String observation) {
         this.orderVO = orderVO;
-        this.burguerVO = burguerVO;
+        this.burgerVO = burgerVO;
         this.quantity = quantity;
         this.observation = observation;
     }
@@ -55,12 +55,12 @@ public class OrderListVO {
         this.orderVO = orderVO;
     }
 
-    public BurguerVO getBurguerVO() {
-        return burguerVO;
+    public BurgerVO getBurgerVO() {
+        return burgerVO;
     }
 
-    public void setBurguerVO(BurguerVO burguerVO) {
-        this.burguerVO = burguerVO;
+    public void setBurgerVO(BurgerVO burgerVO) {
+        this.burgerVO = burgerVO;
     }
 
     public int getQuantity() {
@@ -81,17 +81,17 @@ public class OrderListVO {
     
     /**
      * Return the subtotal of the order
-     * @return Quantity times the price of the burguer.
+     * @return Quantity times the price of the burger.
      */
     public double getSubtotal() {
-        return this.quantity * this.burguerVO.getPrice();
+        return this.quantity * this.burgerVO.getPrice();
     }
 
     @Override
     public String toString() {
         return "\n"
                 + "OrderID: " + orderVO.getIDOrder() + "\n"
-                + "Burguer: " + burguerVO.getName() + "\n"
+                + "Burger: " + burgerVO.getName() + "\n"
                 + "Quantity: " + quantity + "\n"
                 + "Observation: " + observation + "\n"
                 + "Subtotal: " + getSubtotal() + "\n";
