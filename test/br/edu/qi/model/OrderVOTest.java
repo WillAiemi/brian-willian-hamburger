@@ -48,7 +48,7 @@ public class OrderVOTest {
         ORDER_VO.setClientVO(null);
         ORDER_VO.setDate("21-02-1998");
         ORDER_VO.setObservation("Teste");
-        ORDER_VO.setTotalcost(125.99);
+        
     }
     
     @AfterClass
