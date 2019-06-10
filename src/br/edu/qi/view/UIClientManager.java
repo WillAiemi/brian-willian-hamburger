@@ -27,6 +27,7 @@ import br.edu.qi.model.ClientVO;
 import br.edu.qi.services.ClientServices;
 import br.edu.qi.services.ServicesFactory;
 import br.edu.qi.interfaces.DialogListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -35,6 +36,8 @@ import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Brian & Willian
+ * @since 10/06/19 - 07:03
+ * @version 1.0
  */
 public class UIClientManager extends javax.swing.JInternalFrame implements DialogListener{
 
@@ -74,6 +77,7 @@ public class UIClientManager extends javax.swing.JInternalFrame implements Dialo
         jbDelete = new javax.swing.JButton();
 
         setClosable(true);
+        setTitle("Manage Clients");
 
         jlpData.setBorder(new javax.swing.border.MatteBorder(null));
 

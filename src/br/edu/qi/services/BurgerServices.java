@@ -57,4 +57,11 @@ public class BurgerServices {
         return BURGER_DAO.selectBurgers(query, filter);
     }
     
+    public void updateBurger(BurgerVO burgerVO) throws SQLException {
+        BURGER_DAO.updateBurger(burgerVO);
+    }
+    
+    public void deleteBurger(long idBurger) throws SQLException {
+        BURGER_DAO.deleteBurger(idBurger);
+    }
 }
