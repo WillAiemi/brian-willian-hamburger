@@ -176,6 +176,7 @@ public class MainMenu extends javax.swing.JFrame implements InternalFrameListene
             uIClientManager = new UIClientManager();
             jdpDesktop.add(uIClientManager);
             uIClientManager.setVisible(true);
+            uIClientManager.addInternalFrameListener(this);
         }
 
     }
@@ -185,6 +186,7 @@ public class MainMenu extends javax.swing.JFrame implements InternalFrameListene
             uiNewOrder = new UINewOrder();
             jdpDesktop.add(uiNewOrder);
             uiNewOrder.show();
+            uiNewOrder.addInternalFrameListener(this);
         }
 
     }
@@ -194,6 +196,7 @@ public class MainMenu extends javax.swing.JFrame implements InternalFrameListene
             burgerManager = new UIBurgerManager();
             jdpDesktop.add(burgerManager);
             burgerManager.show();
+            burgerManager.addInternalFrameListener(this);
         }
 
     }
