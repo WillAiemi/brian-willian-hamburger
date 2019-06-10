@@ -24,6 +24,8 @@
 
 package br.edu.qi.model;
 
+import java.text.DecimalFormat;
+
 /**
  *
  * @author Brian & Willian
@@ -35,6 +37,7 @@ public class BurgerVO {
     private String name;
     private String description;
     private double price;
+    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("R$ #0.00");
 
     public BurgerVO() {
     }
@@ -94,7 +97,7 @@ public class BurgerVO {
 
     @Override
     public String toString() {
-        return name + " R$ " + price;
+        return name + " - " + DECIMAL_FORMAT.format(price);
     }
     
     
