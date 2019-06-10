@@ -45,8 +45,8 @@ public class BurgerServices {
     
     private static final BurgerDAO BURGER_DAO = DAOFactory.getBurgerDAO();
 
-    public void insertBurger(BurgerVO burgerVO) throws SQLException {
-        BURGER_DAO.insertBurger(burgerVO);
+    public long insertBurger(BurgerVO burgerVO) throws SQLException {
+        return BURGER_DAO.insertBurger(burgerVO);
     }
     
     public ArrayList<BurgerVO> selectBurgers() throws SQLException {

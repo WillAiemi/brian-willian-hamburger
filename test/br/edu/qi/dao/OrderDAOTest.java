@@ -21,8 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package br.edu.qi.model;
+package br.edu.qi.dao;
 
+import br.edu.qi.model.ClientVO;
+import br.edu.qi.model.OrderVO;
+import br.edu.qi.services.ClientServices;
+import br.edu.qi.services.ServicesFactory;
+import br.edu.qi.util.Utilities;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -33,26 +38,20 @@ import static org.junit.Assert.*;
 /**
  *
  * @author Brian & Willian
- * @since 08/06/19 - 15:48
- * @version 1.0
  */
-public class OrderVOTest {
-    private static final OrderVO ORDER_VO = new OrderVO();
+public class OrderDAOTest {
     
-    public OrderVOTest() {
+    private static final OrderDAO ORDER_DAO = new OrderDAO();
+    
+    public OrderDAOTest() {
     }
     
     @BeforeClass
     public static void setUpClass() {
-        ORDER_VO.setClientVO(null);
-        ORDER_VO.setDate("2019-06-10");
-        ORDER_VO.setObservation("Teste");
-        
     }
     
     @AfterClass
     public static void tearDownClass() {
-        System.out.print(ORDER_VO.toString());
     }
     
     @Before
@@ -64,80 +63,42 @@ public class OrderVOTest {
     }
 
     /**
-     * Test of getIDOrder method, of class OrderVO.
+     * Test of insertOrder method, of class OrderDAO.
      */
     @Test
-    public void testGetIDOrder() {
+    public void testInsertOrder() throws Exception {
+        ClientVO clientVO = ServicesFactory.getCLIENT_SERVICES().selectClients("1", ClientServices.ID_CLIENT).get(0);
+        OrderVO orderVO = new OrderVO(clientVO, Utilities.getDate().toString(), "No lemons.");
+        long id = DAOFactory.getOrderDAO().insertOrder(orderVO);
+        System.out.print(id);
     }
 
     /**
-     * Test of setIDOrder method, of class OrderVO.
+     * Test of selectOrders method, of class OrderDAO.
      */
     @Test
-    public void testSetIDOrder() {
+    public void testSelectOrders_0args() throws Exception {
     }
 
     /**
-     * Test of getClientVO method, of class OrderVO.
+     * Test of selectOrders method, of class OrderDAO.
      */
     @Test
-    public void testGetClientVO() {
+    public void testSelectOrders_String_int() throws Exception {
     }
 
     /**
-     * Test of setClientVO method, of class OrderVO.
+     * Test of updateOrder method, of class OrderDAO.
      */
     @Test
-    public void testSetClientVO() {
+    public void testUpdateOrder() throws Exception {
     }
 
     /**
-     * Test of getDate method, of class OrderVO.
+     * Test of deleteOrder method, of class OrderDAO.
      */
     @Test
-    public void testGetDate() {
-    }
-
-    /**
-     * Test of setDate method, of class OrderVO.
-     */
-    @Test
-    public void testSetDate() {
-    }
-
-    /**
-     * Test of getObservation method, of class OrderVO.
-     */
-    @Test
-    public void testGetObservation() {
-    }
-
-    /**
-     * Test of setObservation method, of class OrderVO.
-     */
-    @Test
-    public void testSetObservation() {
-    }
-
-    /**
-     * Test of getTotalcost method, of class OrderVO.
-     */
-    @Test
-    public void testGetTotalcost() {
-    }
-
-    /**
-     * Test of setTotalcost method, of class OrderVO.
-     */
-    @Test
-    public void testSetTotalcost() {
-    }
-
-    /**
-     * Test of toString method, of class OrderVO.
-     */
-    @Test
-    public void testToString() {
+    public void testDeleteOrder() throws Exception {
     }
     
 }

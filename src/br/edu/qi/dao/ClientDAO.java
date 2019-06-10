@@ -43,20 +43,26 @@ public class ClientDAO {
     private static final int NAME = 1;
     private static final int PHONE_NUMBER = 2;
     
-    public void insertClient(ClientVO clientVO) throws SQLException {
+    public long insertClient(ClientVO clientVO) throws SQLException {
         Connection connection = DatabaseConnection.getConnection();
         Statement statement = connection.createStatement();
+        long id = -1;
         try {
             String sql = "insert into client(idclient, name, phoneNumber)"
                     + "values(null, '" + clientVO.getName() + "', '" + clientVO.getPhoneNumber() + "');";
             
-            statement.execute(sql);
+            statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
+            ResultSet resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                id = resultSet.getLong(1);
+            }
         } catch (SQLException e) {
             throw new SQLException("Error at inserting client.");
         } finally {
             statement.close();
             connection.close();
         }
+        return id;
     }
     
     public ArrayList<ClientVO> selectClients() throws SQLException {

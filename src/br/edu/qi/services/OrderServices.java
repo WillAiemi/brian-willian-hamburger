@@ -45,8 +45,8 @@ public class OrderServices {
     
     private static final OrderDAO ORDER_DAO = DAOFactory.getOrderDAO();
     
-    public void insertOrder(OrderVO orderVO) throws SQLException {
-        ORDER_DAO.insertOrder(orderVO);
+    public long insertOrder(OrderVO orderVO) throws SQLException {
+        return ORDER_DAO.insertOrder(orderVO);
     }
     
     public ArrayList<OrderVO> selectOrders() throws SQLException {

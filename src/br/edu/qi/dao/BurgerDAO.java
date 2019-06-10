@@ -44,19 +44,25 @@ public class BurgerDAO {
     private static final int DESCRIPTION = 2;
     private static final int PRICE = 3;
 
-    public void insertBurger(BurgerVO burgerVO) throws SQLException {
+    public long insertBurger(BurgerVO burgerVO) throws SQLException {
         Connection connection = DatabaseConnection.getConnection();
         Statement statement = connection.createStatement();
+        long id = -1;
         try {
             String sql = "insert into burger(idburger, name, description, price)"
                     + "values(null, '" + burgerVO.getName() + "', '" + burgerVO.getDescription() + "', " + burgerVO.getPrice() + ")";
-            statement.execute(sql);
+            statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
+            ResultSet resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                id = resultSet.getLong(1);
+            }
         } catch (SQLException e) {
             throw new SQLException("Error when inserting burger to the database.");
         } finally {
             statement.close();
             connection.close();
         }
+        return id;
     }
 
     public ArrayList<BurgerVO> selectsBurgers() throws SQLException {

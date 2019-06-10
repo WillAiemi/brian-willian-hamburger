@@ -47,16 +47,21 @@ public class OrderDAO {
     public static final int DATE = 2;
     public static final int OBSERVATION = 3;
 
-    public void insertOrder(OrderVO order) throws SQLException {
+    public long insertOrder(OrderVO order) throws SQLException {
         Connection connection = DatabaseConnection.getConnection();
         Statement statement = connection.createStatement();
-
+        long id = -1;
         try {
 
             String sql = "insert into `order`(idorder, idclient, date, observation)"
                     + "values(null, '" + order.getClientVO().getIDClient() + "', '" + order.getDate() + "', '" + order.getObservation() + "');";
 
-            statement.execute(sql);
+            statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
+            ResultSet resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                id = resultSet.getLong(1);
+            }
+            
         } catch (SQLException e) {
             throw new SQLException("Error at inserting order." + e.getMessage());
 
@@ -64,6 +69,7 @@ public class OrderDAO {
             statement.close();
             connection.close();
         }
+        return id;
     }
 
     public ArrayList<OrderVO> selectOrders() throws SQLException {

@@ -44,8 +44,8 @@ public class ClientServices {
     
     private static final ClientDAO CLIENT_DAO = DAOFactory.getClientDAO();
     
-    public void insertClient(ClientVO clientVO) throws SQLException {
-        CLIENT_DAO.insertClient(clientVO);
+    public long insertClient(ClientVO clientVO) throws SQLException {
+        return CLIENT_DAO.insertClient(clientVO);
     }
     
     public ArrayList<ClientVO> selectClients() throws SQLException {
