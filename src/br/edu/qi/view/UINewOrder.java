@@ -30,6 +30,8 @@ import br.edu.qi.model.OrderListVO;
 import br.edu.qi.model.OrderVO;
 import br.edu.qi.services.BurgerServices;
 import br.edu.qi.services.ClientServices;
+import br.edu.qi.services.OrderListServices;
+import br.edu.qi.services.OrderServices;
 import br.edu.qi.services.ServicesFactory;
 import br.edu.qi.util.Utilities;
 import java.awt.Frame;
@@ -561,11 +563,11 @@ public class UINewOrder extends javax.swing.JInternalFrame implements DialogList
                 }
                 
                 ClientServices clientServices = ServicesFactory.getCLIENT_SERVICES();
-                clientServices.insertClient(new ClientVO(
+                long idClient = clientServices.insertClient(new ClientVO(
                         jtName.getText(),
                         jtPhone.getText()
                 ));
-                                
+                clientVO = clientServices.selectClients(Long.toString(idClient), ClientServices.ID_CLIENT).get(0);
             }
             
             OrderVO orderVO = new OrderVO(
@@ -574,7 +576,21 @@ public class UINewOrder extends javax.swing.JInternalFrame implements DialogList
                     jtAdditionalObservations.getText()
             );
             
+            OrderServices orderServices = ServicesFactory.getORDER_SERVICES();
+            long idOrder = orderServices.insertOrder(orderVO);
+            orderVO.setIDOrder(idOrder);
             
+            OrderListServices orderListServices = ServicesFactory.getORDER_LIST_SERVICES();
+            for (OrderListVO orderListVO : orderListArray) {
+                orderListVO.setOrderVO(orderVO);
+                orderListServices.insertOrderList(orderListVO);
+            }
+            
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Order registered with success.",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(
                     this,
