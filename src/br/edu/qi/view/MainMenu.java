@@ -69,6 +69,7 @@ public class MainMenu extends javax.swing.JFrame implements InternalFrameListene
         jmiManageBurgers = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Brian & Willian - Java Visual Final Project");
 
         javax.swing.GroupLayout jdpDesktopLayout = new javax.swing.GroupLayout(jdpDesktop);
         jdpDesktop.setLayout(jdpDesktopLayout);
