@@ -227,7 +227,7 @@ public class UINewClient extends javax.swing.JInternalFrame {
     }
     
     private void cancel() {
-        // TO DO this method
+        this.dispose();
     }
     
     private void clear() {

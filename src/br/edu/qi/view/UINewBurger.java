@@ -228,6 +228,8 @@ public class UINewBurger extends javax.swing.JInternalFrame {
             BurgerServices burgerServices = ServicesFactory.getBURGER_SERVICES();
             burgerServices.insertBurger(burgerVO);
             
+            clear();
+            
             JOptionPane.showMessageDialog(
                     this, 
                     "Burger has been added to the database.",
@@ -245,11 +247,14 @@ public class UINewBurger extends javax.swing.JInternalFrame {
     }
     
     private void clear() {
-        
+        jtName.setText(null);
+        jtDescription.setText(null);
+        jtPrice.setText(null);
     }
     
     private void cancel() {
-        
+        // to do this method
+        this.dispose();
     }
     
     private void jbAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddActionPerformed
