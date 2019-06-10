@@ -23,13 +23,23 @@
  */
 package br.edu.qi.view;
 
+import javax.swing.JInternalFrame;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
+
 /**
  *
  * @author Brian & Willian
  * @since 07/06/2019 - 18:26
  * @version 1.0
  */
-public class MainMenu extends javax.swing.JFrame {
+public class MainMenu extends javax.swing.JFrame implements InternalFrameListener {
+
+    private UINewClient uINewClient = null;
+    private UINewBurger uINewBurger = null;
+    private UIClientManager uIClientManager = null;
+    private UINewOrder uiNewOrder = null;
+    private UIBurgerManager burgerManager = null;
 
     /**
      * Creates new form MainMenu
@@ -143,33 +153,47 @@ public class MainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void insertUINewClientToDesktop() {
-        UINewClient uINewClient = new UINewClient();
-        jdpDesktop.add(uINewClient);
-        uINewClient.setVisible(true);
+        if (uINewClient == null) {
+            uINewClient = new UINewClient();
+            jdpDesktop.add(uINewClient);
+            uINewClient.setVisible(true);
+            uINewClient.addInternalFrameListener(this);
+        }
     }
 
     private void insertUINewBurgerToDesktop() {
-        UINewBurger uINewBurger = new UINewBurger();
-        jdpDesktop.add(uINewBurger);
-        uINewBurger.setVisible(true);
+        if (uINewBurger == null) {
+            uINewBurger = new UINewBurger();
+            jdpDesktop.add(uINewBurger);
+            uINewBurger.setVisible(true);
+        }
     }
 
     private void insertUIClientManagerToDesktop() {
-        UIClientManager uIClientManager = new UIClientManager();
-        jdpDesktop.add(uIClientManager);
-        uIClientManager.setVisible(true);
+        if (uIClientManager == null) {
+            uIClientManager = new UIClientManager();
+            jdpDesktop.add(uIClientManager);
+            uIClientManager.setVisible(true);
+        }
+
     }
 
     private void insertUINewOrderToDesktop() {
-        UINewOrder uiNewOrder = new UINewOrder();
-        jdpDesktop.add(uiNewOrder);
-        uiNewOrder.show();
+        if (uiNewOrder == null) {
+            uiNewOrder = new UINewOrder();
+            jdpDesktop.add(uiNewOrder);
+            uiNewOrder.show();
+        }
+
     }
 
     private void insertUIBurguerManagerToDesktop() {
-        UIBurgerManager burgerManager = new UIBurgerManager();
-        jdpDesktop.add(burgerManager);
-        burgerManager.show();
+        if (burgerManager == null) {
+            burgerManager = new UIBurgerManager();
+            jdpDesktop.add(burgerManager);
+            burgerManager.show();
+        }
+
     }
 
     private void jmiNewClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiNewClientActionPerformed
@@ -238,4 +262,53 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiNewClient;
     private javax.swing.JMenuItem jmiNewOrder;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void internalFrameOpened(InternalFrameEvent ife) {
+    }
+
+    @Override
+    public void internalFrameClosing(InternalFrameEvent ife) {
+
+    }
+
+    @Override
+    public void internalFrameClosed(InternalFrameEvent ife) {
+        JInternalFrame internalFrame = ife.getInternalFrame();
+        if (internalFrame instanceof UIBurgerManager) {
+            burgerManager = null;
+        }
+        if (internalFrame instanceof UINewClient) {
+            uINewClient = null;
+        }
+        if (internalFrame instanceof UINewBurger) {
+            uINewBurger = null;
+        }
+        if (internalFrame instanceof UIClientManager) {
+            uIClientManager = null;
+        }
+        if (internalFrame instanceof UINewOrder) {
+            uiNewOrder = null;
+        }
+    }
+
+    @Override
+    public void internalFrameIconified(InternalFrameEvent ife) {
+
+    }
+
+    @Override
+    public void internalFrameDeiconified(InternalFrameEvent ife) {
+
+    }
+
+    @Override
+    public void internalFrameActivated(InternalFrameEvent ife) {
+
+    }
+
+    @Override
+    public void internalFrameDeactivated(InternalFrameEvent ife) {
+
+    }
 }
