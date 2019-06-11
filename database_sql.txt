@@ -30,7 +30,11 @@ primary key(idorder,idburger),
 foreign key(idorder) references `order`(idorder),
 foreign key(idburger) references burger(idburger));
 
-drop table orderlist;
-drop table `order`;
-drop table burger;
-drop table client;
+insert into client(idclient, name, phonenumber)
+values(null, "Will", "(51)1234-56789"),
+(null, "Brian", "(51)9876-54321");
+
+insert into burger(idburger, name, description, price)
+values(null, "Xis Frango", "Pão, frango", 15.90),
+(null, "Xis Carne", "Pão, carne", 14.90),
+(null, "Xis Tudo", "Pão, maionese, tudo", 20.90);
