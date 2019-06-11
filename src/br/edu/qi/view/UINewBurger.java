@@ -26,9 +26,11 @@ package br.edu.qi.view;
 import br.edu.qi.model.BurgerVO;
 import br.edu.qi.services.BurgerServices;
 import br.edu.qi.services.ServicesFactory;
-import java.sql.SQLException;
+import br.edu.qi.util.Utilities;
+import java.awt.Color;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 /**
  *
@@ -36,11 +38,16 @@ import javax.swing.JTextField;
  */
 public class UINewBurger extends javax.swing.JInternalFrame {
 
+    private final Border defaultBorder;
+    private final Border goodBorder = BorderFactory.createLineBorder(Color.decode("#00e038"));
+    private final Border evilBorder = BorderFactory.createLineBorder(Color.decode("#e21a0f").brighter());
+    
     /**
      * Creates new form UINewBurger
      */
     public UINewBurger() {
         initComponents();
+        this.defaultBorder = jtName.getBorder();
     }
 
     /**
@@ -57,8 +64,12 @@ public class UINewBurger extends javax.swing.JInternalFrame {
         jlDescription = new javax.swing.JLabel();
         jlPrice = new javax.swing.JLabel();
         jtName = new javax.swing.JTextField();
-        jtDescription = new javax.swing.JTextField();
         jtPrice = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtDescription = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jlpAction = new javax.swing.JLayeredPane();
         jbAdd = new javax.swing.JButton();
         jbClear = new javax.swing.JButton();
@@ -77,33 +88,79 @@ public class UINewBurger extends javax.swing.JInternalFrame {
 
         jlPrice.setText("Price");
 
+        jtName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtNameFocusLost(evt);
+            }
+        });
+
+        jtPrice.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtPriceFocusLost(evt);
+            }
+        });
+
+        jtDescription.setColumns(20);
+        jtDescription.setRows(5);
+        jtDescription.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtDescriptionFocusLost(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jtDescription);
+
+        jLabel1.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/qi/assets/burger_icon.png"))); // NOI18N
+        jLabel1.setEnabled(false);
+        jLabel1.setMaximumSize(new java.awt.Dimension(25, 26));
+        jLabel1.setMinimumSize(new java.awt.Dimension(26, 26));
+        jLabel1.setPreferredSize(new java.awt.Dimension(26, 26));
+
+        jLabel2.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/qi/assets/description_icon.png"))); // NOI18N
+        jLabel2.setEnabled(false);
+
+        jLabel3.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/qi/assets/money_icon.png"))); // NOI18N
+        jLabel3.setEnabled(false);
+
         jlpData.setLayer(jlName, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jlpData.setLayer(jlDescription, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jlpData.setLayer(jlPrice, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jlpData.setLayer(jtName, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jlpData.setLayer(jtDescription, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jlpData.setLayer(jtPrice, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jlpData.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jlpData.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jlpData.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jlpData.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jlpDataLayout = new javax.swing.GroupLayout(jlpData);
         jlpData.setLayout(jlpDataLayout);
         jlpDataLayout.setHorizontalGroup(
             jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jlpDataLayout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jlpDataLayout.createSequentialGroup()
-                        .addComponent(jlPrice)
-                        .addGap(18, 18, 18)
-                        .addComponent(jtPrice))
-                    .addGroup(jlpDataLayout.createSequentialGroup()
-                        .addComponent(jlDescription)
-                        .addGap(18, 18, 18)
-                        .addComponent(jtDescription))
-                    .addGroup(jlpDataLayout.createSequentialGroup()
+                        .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jlpDataLayout.createSequentialGroup()
+                                .addGap(17, 17, 17)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jlpDataLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel2)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jlName)
-                        .addGap(18, 18, 18)
-                        .addComponent(jtName, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtName, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jlpDataLayout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jlPrice)
+                            .addComponent(jlDescription))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addComponent(jtPrice))))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         jlpDataLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jlDescription, jlName, jlPrice});
@@ -111,19 +168,28 @@ public class UINewBurger extends javax.swing.JInternalFrame {
         jlpDataLayout.setVerticalGroup(
             jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jlpDataLayout.createSequentialGroup()
-                .addGap(34, 34, 34)
+                .addGap(31, 31, 31)
                 .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlName)
-                    .addComponent(jtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
-                .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlDescription)
-                    .addComponent(jtDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlPrice)
-                    .addComponent(jtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41))
+                    .addComponent(jtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jlpDataLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                        .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jlDescription))
+                        .addGap(18, 18, 18)
+                        .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jlPrice)
+                            .addComponent(jtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(41, 41, 41))
+                    .addGroup(jlpDataLayout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33))))
         );
 
         jlpDataLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jlDescription, jlName, jlPrice});
@@ -200,30 +266,33 @@ public class UINewBurger extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jlpData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jlpAction)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jlpAction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void testTextField(JTextField textField, String message) {
-        if (textField.getText().isEmpty()) {
-            throw new NullPointerException(message);
-        }
-    }
     
     private void add() {
         try {
-            testTextField(jtName, "Name text field is empty.");
-            testTextField(jtDescription, "Description text field is empty.");
-            testTextField(jtPrice, "Price text field is empty.");
+            if (!Utilities.validateName(jtName.getText())) {
+                jtName.grabFocus();
+                throw new IllegalStateException("Name is not well written.");
+            }
+            if (!Utilities.validateBigTexts(jtDescription.getText())) {
+                jtDescription.grabFocus();
+               throw new IllegalStateException("Please, write the description correctly.");
+            }
+            if (!Utilities.validatePrice(jtPrice.getText())) {
+                jtPrice.grabFocus();
+                throw new IllegalStateException("Please, write the price correctly.");
+            }
             
             BurgerVO burgerVO = new BurgerVO(
                     jtName.getText(),
                     jtDescription.getText(),
-                    Double.parseDouble(jtPrice.getText())
+                    Double.parseDouble(Utilities.convertCommaToDot(jtPrice.getText()))
             );
             BurgerServices burgerServices = ServicesFactory.getBURGER_SERVICES();
             burgerServices.insertBurger(burgerVO);
@@ -235,6 +304,13 @@ public class UINewBurger extends javax.swing.JInternalFrame {
                     "Burger has been added to the database.",
                     "Success!",
                     JOptionPane.INFORMATION_MESSAGE
+            );
+        } catch (IllegalStateException e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    e.getMessage(),
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE
             );
         } catch (Exception e) {
             JOptionPane.showMessageDialog(
@@ -269,8 +345,36 @@ public class UINewBurger extends javax.swing.JInternalFrame {
         cancel();
     }//GEN-LAST:event_jbCancelActionPerformed
 
+    private void jtNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtNameFocusLost
+        if (Utilities.validateName(jtName.getText())) {
+            jtName.setBorder(goodBorder);
+            return;
+        }
+        jtName.setBorder(evilBorder);
+    }//GEN-LAST:event_jtNameFocusLost
+
+    private void jtDescriptionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtDescriptionFocusLost
+        if (Utilities.validateBigTexts(jtDescription.getText())) {
+            jtDescription.setBorder(goodBorder);
+            return;
+        }
+        jtDescription.setBorder(evilBorder);
+    }//GEN-LAST:event_jtDescriptionFocusLost
+
+    private void jtPriceFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtPriceFocusLost
+        if (Utilities.validatePrice(jtPrice.getText())) {
+            jtPrice.setBorder(goodBorder);
+            return;
+        }
+        jtPrice.setBorder(evilBorder);
+    }//GEN-LAST:event_jtPriceFocusLost
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbAdd;
     private javax.swing.JButton jbCancel;
     private javax.swing.JButton jbClear;
@@ -279,7 +383,7 @@ public class UINewBurger extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jlPrice;
     private javax.swing.JLayeredPane jlpAction;
     private javax.swing.JLayeredPane jlpData;
-    private javax.swing.JTextField jtDescription;
+    private javax.swing.JTextArea jtDescription;
     private javax.swing.JTextField jtName;
     private javax.swing.JTextField jtPrice;
     // End of variables declaration//GEN-END:variables

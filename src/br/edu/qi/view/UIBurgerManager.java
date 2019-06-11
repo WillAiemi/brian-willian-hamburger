@@ -84,6 +84,8 @@ public class UIBurgerManager extends javax.swing.JInternalFrame implements Dialo
         jLayeredPane1.setBorder(new javax.swing.border.MatteBorder(null));
 
         jlFilter.setText("Filter");
+        jlFilter.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/qi/assets/search_icon.png"))); // NOI18N
+        jlFilter.setEnabled(false);
 
         jcbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Name", "Description", "Price" }));
         jcbFilter.setSelectedIndex(1);
@@ -119,15 +121,15 @@ public class UIBurgerManager extends javax.swing.JInternalFrame implements Dialo
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jlFilter)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jcbFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jtQuery))
+                        .addComponent(jtQuery, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jLayeredPane1Layout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addComponent(jScrollPane1)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 671, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jLayeredPane1Layout.setVerticalGroup(

@@ -26,7 +26,12 @@ package br.edu.qi.view;
 import br.edu.qi.model.ClientVO;
 import br.edu.qi.services.ClientServices;
 import br.edu.qi.services.ServicesFactory;
+import br.edu.qi.util.Utilities;
+import java.awt.Color;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
+import javax.swing.border.Border;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -35,12 +40,23 @@ import javax.swing.JOptionPane;
  * @version 1.0
  */
 public class UINewClient extends javax.swing.JInternalFrame {
-    
+
+    private final Border defaultBorder;
+    private final Border goodBorder = BorderFactory.createLineBorder(Color.decode("#00e038"));
+    private final Border evilBorder = BorderFactory.createLineBorder(Color.decode("#e21a0f").brighter());
+
     /**
      * Creates new form UIAddClient
      */
     public UINewClient() {
         initComponents();
+        this.defaultBorder = jtName.getBorder();
+        try {
+            MaskFormatter phoneMask = new MaskFormatter("'(##')####'-#####");
+            phoneMask.install(jtPhone);
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+        }
     }
 
     /**
@@ -56,7 +72,9 @@ public class UINewClient extends javax.swing.JInternalFrame {
         jlName = new javax.swing.JLabel();
         jlPhone = new javax.swing.JLabel();
         jtName = new javax.swing.JTextField();
-        jtPhone = new javax.swing.JTextField();
+        jtPhone = new javax.swing.JFormattedTextField();
+        jlNameIcon = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jlpAction = new javax.swing.JLayeredPane();
         jbAdd = new javax.swing.JButton();
         jbCancel = new javax.swing.JButton();
@@ -74,27 +92,51 @@ public class UINewClient extends javax.swing.JInternalFrame {
         jlPhone.setText("Phone");
 
         jtName.setToolTipText("");
+        jtName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtNameFocusLost(evt);
+            }
+        });
+
+        jtPhone.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtPhoneFocusLost(evt);
+            }
+        });
+
+        jlNameIcon.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/qi/assets/user_icon.png"))); // NOI18N
+        jlNameIcon.setEnabled(false);
+
+        jLabel1.setText("jLabel1");
+        jLabel1.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/qi/assets/phone_icon.png"))); // NOI18N
+        jLabel1.setEnabled(false);
 
         jlpData.setLayer(jlName, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jlpData.setLayer(jlPhone, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jlpData.setLayer(jtName, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jlpData.setLayer(jtPhone, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jlpData.setLayer(jlNameIcon, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jlpData.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jlpDataLayout = new javax.swing.GroupLayout(jlpData);
         jlpData.setLayout(jlpDataLayout);
         jlpDataLayout.setHorizontalGroup(
             jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jlpDataLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(26, 26, 26)
+                .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jlpDataLayout.createSequentialGroup()
-                        .addComponent(jlPhone)
-                        .addGap(18, 18, 18)
-                        .addComponent(jtPhone))
+                        .addComponent(jlNameIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jlName))
                     .addGroup(jlpDataLayout.createSequentialGroup()
-                        .addComponent(jlName)
-                        .addGap(18, 18, 18)
-                        .addComponent(jtName, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jlPhone)))
+                .addGap(18, 18, 18)
+                .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtName, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
 
@@ -103,15 +145,18 @@ public class UINewClient extends javax.swing.JInternalFrame {
         jlpDataLayout.setVerticalGroup(
             jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jlpDataLayout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlName)
-                    .addComponent(jtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jlName)
+                        .addComponent(jtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jlNameIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(47, 47, 47)
                 .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlPhone)
-                    .addComponent(jtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(53, Short.MAX_VALUE))
+                    .addComponent(jtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         jlpDataLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jlName, jlPhone});
@@ -167,7 +212,7 @@ public class UINewClient extends javax.swing.JInternalFrame {
                     .addComponent(jbCancel)
                     .addComponent(jbAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbClear, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         jlpActionLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jbAdd, jbCancel});
@@ -195,26 +240,33 @@ public class UINewClient extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+
     private void add() {
         try {
-            if (jtName.getText().isEmpty()) {
-                throw new NullPointerException("Name text field is empty.");
+            if (!Utilities.validateName(jtName.getText())) {
+                throw new IllegalStateException("Please, write the name correctly.");
             }
-            if (jtPhone.getText().isEmpty()) {
-                throw new NullPointerException("Phone text field is empty.");
+            if (!Utilities.validatePhoneNumber(jtPhone.getText().trim())) {
+                throw new IllegalStateException("Please, write the phone number correctly.");
             }
             ClientVO clientVO = new ClientVO(jtName.getText(), jtPhone.getText());
             ClientServices clientServices = ServicesFactory.getCLIENT_SERVICES();
             clientServices.insertClient(clientVO);
-            
+
             clear();
-            
+
             JOptionPane.showMessageDialog(
-                    this, 
+                    this,
                     "Client has been added to the database.",
                     "Success!",
                     JOptionPane.INFORMATION_MESSAGE
+            );
+        } catch (IllegalStateException e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    e.getMessage(),
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE
             );
         } catch (Exception e) {
             JOptionPane.showMessageDialog(
@@ -223,18 +275,18 @@ public class UINewClient extends javax.swing.JInternalFrame {
                     "Error",
                     JOptionPane.ERROR_MESSAGE
             );
-        }      
+        }
     }
-    
+
     private void cancel() {
         this.dispose();
     }
-    
+
     private void clear() {
         jtName.setText(null);
         jtPhone.setText(null);
     }
-    
+
     private void jbAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddActionPerformed
         add();
     }//GEN-LAST:event_jbAddActionPerformed
@@ -247,16 +299,34 @@ public class UINewClient extends javax.swing.JInternalFrame {
         clear();
     }//GEN-LAST:event_jbClearActionPerformed
 
+    private void jtNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtNameFocusLost
+        if (Utilities.validateName(jtName.getText())) {
+            jtName.setBorder(defaultBorder);
+            return;
+        }
+        jtName.setBorder(evilBorder);
+    }//GEN-LAST:event_jtNameFocusLost
+
+    private void jtPhoneFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtPhoneFocusLost
+        if (Utilities.validatePhoneNumber(jtPhone.getText().trim())) {
+            jtPhone.setBorder(defaultBorder);
+            return;
+        }
+        jtPhone.setBorder(evilBorder);
+    }//GEN-LAST:event_jtPhoneFocusLost
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JButton jbAdd;
     private javax.swing.JButton jbCancel;
     private javax.swing.JButton jbClear;
     private javax.swing.JLabel jlName;
+    private javax.swing.JLabel jlNameIcon;
     private javax.swing.JLabel jlPhone;
     private javax.swing.JLayeredPane jlpAction;
     private javax.swing.JLayeredPane jlpData;
     private javax.swing.JTextField jtName;
-    private javax.swing.JTextField jtPhone;
+    private javax.swing.JFormattedTextField jtPhone;
     // End of variables declaration//GEN-END:variables
 }

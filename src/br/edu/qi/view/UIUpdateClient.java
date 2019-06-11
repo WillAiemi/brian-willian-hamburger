@@ -27,7 +27,12 @@ import br.edu.qi.model.ClientVO;
 import br.edu.qi.services.ClientServices;
 import br.edu.qi.services.ServicesFactory;
 import br.edu.qi.interfaces.DialogListener;
+import br.edu.qi.util.Utilities;
+import java.awt.Color;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
+import javax.swing.border.Border;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -37,6 +42,10 @@ import javax.swing.JOptionPane;
  */
 public class UIUpdateClient extends javax.swing.JDialog {
 
+    private final Border defaultBorder;
+    private final Border goodBorder = BorderFactory.createLineBorder(Color.decode("#00e038"));
+    private final Border evilBorder = BorderFactory.createLineBorder(Color.decode("#e21a0f").brighter());
+    
     private ClientVO clientVO;
     private DialogListener dialogListener;
     
@@ -46,11 +55,19 @@ public class UIUpdateClient extends javax.swing.JDialog {
     public UIUpdateClient(java.awt.Frame parent, boolean modal, ClientVO clientVO, DialogListener dialogListener) {
         super(parent, modal);
         initComponents();
+        this.defaultBorder = jtName.getBorder();
         this.clientVO = clientVO;
         this.dialogListener = dialogListener;
         jtID.setText(String.valueOf(clientVO.getIDClient()));
         jtName.setText(clientVO.getName());
-        jtPhone.setText(clientVO.getPhoneNumber());
+        try {
+            MaskFormatter phoneMask = new MaskFormatter("'(##')####'-#####");
+            phoneMask.install(jtPhone);
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+        }
+        
+        jtPhone.setText(Utilities.convertPhoneNumberToOnlyNumber(clientVO.getPhoneNumber()));
     }
 
     /**
@@ -68,7 +85,10 @@ public class UIUpdateClient extends javax.swing.JDialog {
         jlPhone = new javax.swing.JLabel();
         jtID = new javax.swing.JTextField();
         jtName = new javax.swing.JTextField();
-        jtPhone = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jtPhone = new javax.swing.JFormattedTextField();
         jLayeredPane2 = new javax.swing.JLayeredPane();
         jbUpdate = new javax.swing.JButton();
         jbCancel = new javax.swing.JButton();
@@ -86,11 +106,35 @@ public class UIUpdateClient extends javax.swing.JDialog {
 
         jtID.setFocusable(false);
 
+        jtName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtNameFocusLost(evt);
+            }
+        });
+
+        jLabel1.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/qi/assets/id_icon.png"))); // NOI18N
+        jLabel1.setEnabled(false);
+
+        jLabel2.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/qi/assets/user_icon.png"))); // NOI18N
+        jLabel2.setEnabled(false);
+
+        jLabel3.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/qi/assets/phone_icon.png"))); // NOI18N
+        jLabel3.setEnabled(false);
+
+        jtPhone.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtPhoneFocusLost(evt);
+            }
+        });
+
         jLayeredPane1.setLayer(jlID, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jlName, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jlPhone, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jtID, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jtName, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jtPhone, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
@@ -98,17 +142,22 @@ public class UIUpdateClient extends javax.swing.JDialog {
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                .addGap(40, 40, 40)
+                .addContainerGap(30, Short.MAX_VALUE)
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jlPhone)
-                        .addComponent(jlName))
+                        .addComponent(jlName)
+                        .addComponent(jlPhone))
                     .addComponent(jlID))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jtID)
-                    .addComponent(jtName)
-                    .addComponent(jtPhone, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE))
+                    .addComponent(jtName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                    .addComponent(jtID, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jtPhone))
                 .addGap(40, 40, 40))
         );
 
@@ -120,14 +169,17 @@ public class UIUpdateClient extends javax.swing.JDialog {
                 .addGap(35, 35, 35)
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlID)
-                    .addComponent(jtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addGap(41, 41, 41)
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlName)
-                    .addComponent(jtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41)
+                    .addComponent(jtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(38, 38, 38)
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlPhone)
+                    .addComponent(jLabel3)
                     .addComponent(jtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(50, Short.MAX_VALUE))
         );
@@ -205,11 +257,11 @@ public class UIUpdateClient extends javax.swing.JDialog {
 
     private void update() {
         try {
-            if (jtName.getText().isEmpty()) {
-                throw new NullPointerException("Name text field is empty.");
+            if (!Utilities.validateName(jtName.getText())) {
+                throw new IllegalStateException("Please, write the name correctly.");
             }
-            if (jtPhone.getText().isEmpty()) {
-                throw new NullPointerException("Phone text field is empty.");
+            if (!Utilities.validatePhoneNumber(jtPhone.getText().trim())) {
+                throw new IllegalStateException("Please, write the phone number correctly.");
             }
             this.clientVO.setName(jtName.getText());
             this.clientVO.setPhoneNumber(jtPhone.getText());
@@ -222,6 +274,13 @@ public class UIUpdateClient extends javax.swing.JDialog {
                     JOptionPane.INFORMATION_MESSAGE
             );
             dialogListener.closeJDialog(this);
+        } catch (IllegalStateException e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    e.getMessage(),
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE
+            );
         } catch (Exception e) {
             JOptionPane.showMessageDialog(
                     this,
@@ -243,6 +302,22 @@ public class UIUpdateClient extends javax.swing.JDialog {
     private void jbCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelActionPerformed
         cancel();
     }//GEN-LAST:event_jbCancelActionPerformed
+
+    private void jtNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtNameFocusLost
+        if (Utilities.validateName(jtName.getText())) {
+            jtName.setBorder(defaultBorder);
+            return;
+        }
+        jtName.setBorder(evilBorder);
+    }//GEN-LAST:event_jtNameFocusLost
+
+    private void jtPhoneFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtPhoneFocusLost
+        if (Utilities.validatePhoneNumber(jtPhone.getText().trim())) {
+            jtPhone.setBorder(defaultBorder);
+            return;
+        }
+        jtPhone.setBorder(evilBorder);
+    }//GEN-LAST:event_jtPhoneFocusLost
 
     /**
      * @param args the command line arguments
@@ -287,6 +362,9 @@ public class UIUpdateClient extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JLayeredPane jLayeredPane2;
     private javax.swing.JButton jbCancel;
@@ -296,6 +374,6 @@ public class UIUpdateClient extends javax.swing.JDialog {
     private javax.swing.JLabel jlPhone;
     private javax.swing.JTextField jtID;
     private javax.swing.JTextField jtName;
-    private javax.swing.JTextField jtPhone;
+    private javax.swing.JFormattedTextField jtPhone;
     // End of variables declaration//GEN-END:variables
 }

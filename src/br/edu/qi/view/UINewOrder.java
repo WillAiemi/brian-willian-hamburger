@@ -34,16 +34,20 @@ import br.edu.qi.services.OrderListServices;
 import br.edu.qi.services.OrderServices;
 import br.edu.qi.services.ServicesFactory;
 import br.edu.qi.util.Utilities;
+import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Window;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -57,10 +61,16 @@ public class UINewOrder extends javax.swing.JInternalFrame implements DialogList
             new Object[][]{},
             new Object[]{"Burger", "Quantity", "Price"}
     );
+    
+    private final Border defaultBorder;
+    private final Border goodBorder = BorderFactory.createLineBorder(Color.decode("#00e038"));
+    private final Border evilBorder = BorderFactory.createLineBorder(Color.decode("#e21a0f").brighter());
 
     private static final DecimalFormat DECIMAL_FORMAT_BRL = new DecimalFormat("R$ #,##0.00");
 
     private final DefaultListModel burgerDefaultListModel = new DefaultListModel();
+    
+    private MaskFormatter phoneMask;
 
     private ClientVO clientVO = null;
 
@@ -69,6 +79,8 @@ public class UINewOrder extends javax.swing.JInternalFrame implements DialogList
      */
     public UINewOrder() {
         initComponents();
+        this.defaultBorder = jtName.getBorder();
+        
         jtableOrderList.setModel(orderListTableModel);
         jbAddToOrderList.setEnabled(false);
         jbRemoveFromOrderList.setEnabled(false);
@@ -79,6 +91,13 @@ public class UINewOrder extends javax.swing.JInternalFrame implements DialogList
         jlistBurger.setModel(burgerDefaultListModel);
         orderListArray = new ArrayList<>();
         jtTotalCost.setText(Utilities.formatToBRL(0));
+        
+        try {
+            phoneMask = new MaskFormatter("'(##')####'-#####");
+            phoneMask.install(jtPhone);
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+        }
 
     }
 
@@ -115,9 +134,11 @@ public class UINewOrder extends javax.swing.JInternalFrame implements DialogList
         jlName = new javax.swing.JLabel();
         jlPhone = new javax.swing.JLabel();
         jtName = new javax.swing.JTextField();
-        jtPhone = new javax.swing.JTextField();
         jbReset = new javax.swing.JButton();
         jbSearch = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jtPhone = new javax.swing.JFormattedTextField();
         jLayeredPane3 = new javax.swing.JLayeredPane();
         jbCreate = new javax.swing.JButton();
         jbCancel = new javax.swing.JButton();
@@ -321,13 +342,10 @@ public class UINewOrder extends javax.swing.JInternalFrame implements DialogList
                 .addGroup(jlpBurguerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jlOrderListObservation)
                     .addComponent(jlBurguerDescription))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jlpBurguerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jlpBurguerLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3))
-                    .addGroup(jlpBurguerLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4)))
+                    .addComponent(jScrollPane3)
+                    .addComponent(jScrollPane4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jlpBurguerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbSetObservation)
@@ -340,6 +358,12 @@ public class UINewOrder extends javax.swing.JInternalFrame implements DialogList
         jlName.setText("Name");
 
         jlPhone.setText("Phone");
+
+        jtName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtNameFocusLost(evt);
+            }
+        });
 
         jbReset.setText("Reset");
         jbReset.addActionListener(new java.awt.event.ActionListener() {
@@ -355,45 +379,61 @@ public class UINewOrder extends javax.swing.JInternalFrame implements DialogList
             }
         });
 
+        jLabel1.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/qi/assets/user_icon.png"))); // NOI18N
+        jLabel1.setEnabled(false);
+
+        jLabel2.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/qi/assets/phone_icon.png"))); // NOI18N
+        jLabel2.setEnabled(false);
+
         jlpClient.setLayer(jlName, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jlpClient.setLayer(jlPhone, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jlpClient.setLayer(jtName, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jlpClient.setLayer(jtPhone, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jlpClient.setLayer(jbReset, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jlpClient.setLayer(jbSearch, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jlpClient.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jlpClient.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jlpClient.setLayer(jtPhone, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jlpClientLayout = new javax.swing.GroupLayout(jlpClient);
         jlpClient.setLayout(jlpClientLayout);
         jlpClientLayout.setHorizontalGroup(
             jlpClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jlpClientLayout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addGroup(jlpClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jlpClientLayout.createSequentialGroup()
-                        .addComponent(jlName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jtName, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jlpClientLayout.createSequentialGroup()
-                        .addComponent(jlPhone)
-                        .addGap(18, 18, 18)
-                        .addComponent(jtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addGroup(jlpClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jlpClientLayout.createSequentialGroup()
                         .addComponent(jbReset, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(39, 39, 39)
+                        .addComponent(jbSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jlpClientLayout.createSequentialGroup()
+                        .addGroup(jlpClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addGroup(jlpClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jlName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jlPhone))
+                        .addGap(18, 18, 18)
+                        .addGroup(jlpClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jtName, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(jtPhone))))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         jlpClientLayout.setVerticalGroup(
             jlpClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jlpClientLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addGroup(jlpClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlName)
-                    .addComponent(jtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jlpClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(jlpClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jlName)
+                        .addComponent(jtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(jlpClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlPhone)
-                    .addComponent(jtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jlpClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addGroup(jlpClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jlPhone)
+                        .addComponent(jtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(40, 40, 40)
                 .addGroup(jlpClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbReset)
@@ -425,11 +465,11 @@ public class UINewOrder extends javax.swing.JInternalFrame implements DialogList
         jLayeredPane3Layout.setHorizontalGroup(
             jLayeredPane3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane3Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addGap(35, 35, 35)
                 .addComponent(jbCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(jbCancel)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         jLayeredPane3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jbCancel, jbCreate});
@@ -437,10 +477,11 @@ public class UINewOrder extends javax.swing.JInternalFrame implements DialogList
         jLayeredPane3Layout.setVerticalGroup(
             jLayeredPane3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane3Layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(jLayeredPane3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbCancel)
-                    .addComponent(jbCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jbCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLayeredPane3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jbCancel, jbCreate});
@@ -488,15 +529,15 @@ public class UINewOrder extends javax.swing.JInternalFrame implements DialogList
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jlpBurguer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jlpClient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jLayeredPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 29, Short.MAX_VALUE))
+                        .addComponent(jLayeredPane3)))
+                .addGap(0, 33, Short.MAX_VALUE))
         );
 
         pack();
@@ -552,6 +593,16 @@ public class UINewOrder extends javax.swing.JInternalFrame implements DialogList
         createOrder();
     }//GEN-LAST:event_jbCreateActionPerformed
 
+    private void jtNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtNameFocusLost
+        if (this.clientVO == null) {
+            if (Utilities.validateName(jtName.getText())) {
+                jtName.setBorder(defaultBorder);
+                return;
+            }
+            jtName.setBorder(evilBorder);
+        }
+    }//GEN-LAST:event_jtNameFocusLost
+
     private void createOrder() {
         try {
             if (clientVO == null) {
@@ -561,7 +612,7 @@ public class UINewOrder extends javax.swing.JInternalFrame implements DialogList
                 if (jtPhone.getText().isEmpty()) {
                     throw new NullPointerException("Client's phone is empty.");
                 }
-                
+
                 ClientServices clientServices = ServicesFactory.getCLIENT_SERVICES();
                 long idClient = clientServices.insertClient(new ClientVO(
                         jtName.getText(),
@@ -569,23 +620,23 @@ public class UINewOrder extends javax.swing.JInternalFrame implements DialogList
                 ));
                 clientVO = clientServices.selectClients(Long.toString(idClient), ClientServices.ID_CLIENT).get(0);
             }
-            
+
             OrderVO orderVO = new OrderVO(
                     this.clientVO,
                     Utilities.getDate().toString(),
                     jtAdditionalObservations.getText()
             );
-            
+
             OrderServices orderServices = ServicesFactory.getORDER_SERVICES();
             long idOrder = orderServices.insertOrder(orderVO);
             orderVO.setIDOrder(idOrder);
-            
+
             OrderListServices orderListServices = ServicesFactory.getORDER_LIST_SERVICES();
             for (OrderListVO orderListVO : orderListArray) {
                 orderListVO.setOrderVO(orderVO);
                 orderListServices.insertOrderList(orderListVO);
             }
-            
+
             JOptionPane.showMessageDialog(
                     this,
                     "Order registered with success.",
@@ -600,14 +651,18 @@ public class UINewOrder extends javax.swing.JInternalFrame implements DialogList
             );
         }
     }
-    
+
     private void cancel() {
         this.dispose();
     }
-    
+
     private void searchClient() {
+        phoneMask.uninstall();
+        
         jdialogSearchClient = new UISearchClient((Frame) SwingUtilities.getAncestorOfClass(Window.class, jbSearch), true, this);
         jdialogSearchClient.setVisible(true);
+        jtName.setBorder(defaultBorder);
+        jtPhone.setBorder(defaultBorder);
     }
 
     private void resetClient() {
@@ -616,6 +671,7 @@ public class UINewOrder extends javax.swing.JInternalFrame implements DialogList
         jtPhone.setText(null);
         jtName.setEditable(true);
         jtPhone.setEditable(true);
+        phoneMask.install(jtPhone);
     }
 
     private void setObservationOfOrderList() {
@@ -685,7 +741,7 @@ public class UINewOrder extends javax.swing.JInternalFrame implements DialogList
                 OrderListVO orderList;
                 try {
                     orderList = orderListArray.stream()
-                            .filter((orderListVO) -> (orderListVO.getBurgerVO() == burgerVO))
+                            .filter((orderListVO) -> (orderListVO.getBurgerVO().getIDBurger() == burgerVO.getIDBurger()))
                             .findFirst()
                             .get();
                 } catch (NoSuchElementException e) {
@@ -792,6 +848,8 @@ public class UINewOrder extends javax.swing.JInternalFrame implements DialogList
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JLayeredPane jLayeredPane3;
     private javax.swing.JScrollPane jScrollPane1;
@@ -822,7 +880,7 @@ public class UINewOrder extends javax.swing.JInternalFrame implements DialogList
     private javax.swing.JTextField jtFilterBurger;
     private javax.swing.JTextField jtName;
     private javax.swing.JTextArea jtOrderListObservation;
-    private javax.swing.JTextField jtPhone;
+    private javax.swing.JFormattedTextField jtPhone;
     private javax.swing.JTextField jtTotalCost;
     private javax.swing.JTable jtableOrderList;
     // End of variables declaration//GEN-END:variables

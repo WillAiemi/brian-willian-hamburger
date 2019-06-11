@@ -56,4 +56,32 @@ public class Utilities {
     public static LocalDate getDate() {
         return LocalDate.now();
     }
+    
+    public static boolean validateName(String string) {
+        return string.matches("^[\\p{L}]{2,20}( [\\p{L}]{2,20}){0,3}$");
+    }
+    
+    public static boolean validatePrice(String string) {
+        return string.matches("^[\\d]{1,3}(\\,[\\d]{1,2})?$");
+    }
+    
+    public static boolean validateBigTexts(String string) {
+        return string.matches("^[(\\p{L}) \\d\\.\\,\\/$]{2,100}$");
+    }
+    
+    public static boolean validatePhoneNumber(String string) {
+        return string.matches("^\\([\\d]{2}\\)[\\d]{4}-[\\d]{4,5}$");
+    }
+    
+    public static String convertCommaToDot(String string) {
+        return string.replace(',', '.');
+    }
+    
+    public static String convertDotToComma(String string) {
+        return string.replace('.', ',');
+    }
+    
+    public static String convertPhoneNumberToOnlyNumber(String phoneNumber) {
+        return phoneNumber.replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("-", "");
+    }
 }

@@ -27,7 +27,11 @@ import br.edu.qi.interfaces.DialogListener;
 import br.edu.qi.model.BurgerVO;
 import br.edu.qi.services.BurgerServices;
 import br.edu.qi.services.ServicesFactory;
+import br.edu.qi.util.Utilities;
+import java.awt.Color;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
+import javax.swing.border.Border;
 
 /**
  *
@@ -36,6 +40,10 @@ import javax.swing.JOptionPane;
  * @version 1.0
  */
 public class UIUpdateBurger extends javax.swing.JDialog {
+
+    private final Border defaultBorder;
+    private final Border goodBorder = BorderFactory.createLineBorder(Color.decode("#00e038"));
+    private final Border evilBorder = BorderFactory.createLineBorder(Color.decode("#e21a0f").brighter());
 
     private BurgerVO burgerVO;
 
@@ -47,12 +55,13 @@ public class UIUpdateBurger extends javax.swing.JDialog {
     public UIUpdateBurger(java.awt.Frame parent, boolean modal, BurgerVO burgerVO, DialogListener dialogListener) {
         super(parent, modal);
         initComponents();
+        this.defaultBorder = jtName.getBorder();
         this.burgerVO = burgerVO;
         this.dialogListener = dialogListener;
         jtID.setText(Long.toString(burgerVO.getIDBurger()));
         jtName.setText(burgerVO.getName());
         jtDescription.setText(burgerVO.getDescription());
-        jtPrice.setText(Double.toString(burgerVO.getPrice()));
+        jtPrice.setText(Utilities.convertDotToComma(Double.toString(burgerVO.getPrice())));
     }
 
     /**
@@ -71,8 +80,13 @@ public class UIUpdateBurger extends javax.swing.JDialog {
         jlPrice = new javax.swing.JLabel();
         jtID = new javax.swing.JTextField();
         jtName = new javax.swing.JTextField();
-        jtDescription = new javax.swing.JTextField();
         jtPrice = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtDescription = new javax.swing.JTextArea();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jlpActions = new javax.swing.JLayeredPane();
         jbUpdate = new javax.swing.JButton();
         jbCancel = new javax.swing.JButton();
@@ -91,54 +105,122 @@ public class UIUpdateBurger extends javax.swing.JDialog {
 
         jtID.setEditable(false);
 
+        jtName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtNameFocusLost(evt);
+            }
+        });
+
+        jtPrice.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtPriceFocusLost(evt);
+            }
+        });
+
+        jLabel1.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/qi/assets/burger_icon.png"))); // NOI18N
+        jLabel1.setEnabled(false);
+
+        jtDescription.setColumns(20);
+        jtDescription.setRows(5);
+        jtDescription.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jtDescriptionFocusLost(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jtDescription);
+
+        jLabel2.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/qi/assets/description_icon.png"))); // NOI18N
+        jLabel2.setEnabled(false);
+
+        jLabel3.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/qi/assets/money_icon.png"))); // NOI18N
+        jLabel3.setEnabled(false);
+
+        jLabel4.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/qi/assets/id_icon.png"))); // NOI18N
+        jLabel4.setEnabled(false);
+
         jlpData.setLayer(jlID, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jlpData.setLayer(jlName, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jlpData.setLayer(jlDescription, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jlpData.setLayer(jlPrice, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jlpData.setLayer(jtID, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jlpData.setLayer(jtName, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jlpData.setLayer(jtDescription, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jlpData.setLayer(jtPrice, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jlpData.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jlpData.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jlpData.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jlpData.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jlpData.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jlpDataLayout = new javax.swing.GroupLayout(jlpData);
         jlpData.setLayout(jlpDataLayout);
         jlpDataLayout.setHorizontalGroup(
             jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jlpDataLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jlpDataLayout.createSequentialGroup()
+                .addContainerGap(60, Short.MAX_VALUE)
                 .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jlID)
-                    .addComponent(jlName)
-                    .addComponent(jlDescription)
-                    .addComponent(jlPrice))
-                .addGap(27, 27, 27)
-                .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jtID, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
-                    .addComponent(jtName)
-                    .addComponent(jtDescription)
-                    .addComponent(jtPrice))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jlpDataLayout.createSequentialGroup()
+                        .addComponent(jlPrice)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                        .addComponent(jtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jlpDataLayout.createSequentialGroup()
+                        .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jlName)
+                            .addComponent(jlDescription)
+                            .addComponent(jlID))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jtName, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+                            .addComponent(jtID, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1))))
+                .addGap(35, 35, 35))
         );
         jlpDataLayout.setVerticalGroup(
             jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jlpDataLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlID)
-                    .addComponent(jtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
+                .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jlpDataLayout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jlID)
+                            .addComponent(jtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(49, 49, 49))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jlpDataLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41)))
                 .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlName)
-                    .addComponent(jtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
-                .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlDescription)
-                    .addComponent(jtDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37)
-                .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlPrice)
-                    .addComponent(jtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(38, Short.MAX_VALUE))
+                    .addComponent(jtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jlpDataLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jlpDataLayout.createSequentialGroup()
+                        .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jlpDataLayout.createSequentialGroup()
+                                .addGap(41, 41, 41)
+                                .addComponent(jlDescription))
+                            .addGroup(jlpDataLayout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
+                .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jlpDataLayout.createSequentialGroup()
+                        .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jlPrice)
+                            .addComponent(jtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(37, 37, 37))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jlpDataLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(40, 40, 40))))
         );
 
         jlpActions.setBorder(new javax.swing.border.MatteBorder(null));
@@ -167,7 +249,7 @@ public class UIUpdateBurger extends javax.swing.JDialog {
             .addGroup(jlpActionsLayout.createSequentialGroup()
                 .addGap(55, 55, 55)
                 .addComponent(jbUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jbCancel)
                 .addGap(83, 83, 83))
         );
@@ -212,18 +294,22 @@ public class UIUpdateBurger extends javax.swing.JDialog {
 
     private void update() {
         try {
-            if (jtName.getText().isEmpty()) {
-                throw new NullPointerException("Name text field is empty.");
+            if (!Utilities.validateName(jtName.getText())) {
+                jtName.grabFocus();
+                throw new IllegalStateException("Name is not well written.");
             }
-            if (jtDescription.getText().isEmpty()) {
-                throw new NullPointerException("Description text field is empty.");
+            if (!Utilities.validateBigTexts(jtDescription.getText())) {
+                jtDescription.grabFocus();
+                throw new IllegalStateException("Please, write the description correctly.");
             }
-            if (jtPrice.getText().isEmpty()) {
-                throw new NullPointerException("Price text field is empty.");
+            if (!Utilities.validatePrice(jtPrice.getText())) {
+                jtPrice.grabFocus();
+                throw new IllegalStateException("Please, write the price correctly.");
             }
+
             this.burgerVO.setName(jtName.getText());
             this.burgerVO.setDescription(jtDescription.getText());
-            this.burgerVO.setPrice(Double.parseDouble(jtPrice.getText()));
+            this.burgerVO.setPrice(Double.parseDouble(Utilities.convertCommaToDot(jtPrice.getText())));
             BurgerServices burgerServices = ServicesFactory.getBURGER_SERVICES();
             burgerServices.updateBurger(burgerVO);
             JOptionPane.showMessageDialog(
@@ -233,6 +319,13 @@ public class UIUpdateBurger extends javax.swing.JDialog {
                     JOptionPane.INFORMATION_MESSAGE
             );
             dialogListener.closeJDialog(this);
+        } catch (IllegalStateException e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    e.getMessage(),
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE
+            );
         } catch (Exception e) {
             JOptionPane.showMessageDialog(
                     this,
@@ -254,6 +347,30 @@ public class UIUpdateBurger extends javax.swing.JDialog {
     private void jbCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelActionPerformed
         cancel();
     }//GEN-LAST:event_jbCancelActionPerformed
+
+    private void jtNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtNameFocusLost
+        if (Utilities.validateName(jtName.getText())) {
+            jtName.setBorder(goodBorder);
+            return;
+        }
+        jtName.setBorder(evilBorder);
+    }//GEN-LAST:event_jtNameFocusLost
+
+    private void jtDescriptionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtDescriptionFocusLost
+        if (Utilities.validateBigTexts(jtDescription.getText())) {
+            jtDescription.setBorder(goodBorder);
+            return;
+        }
+        jtDescription.setBorder(evilBorder);
+    }//GEN-LAST:event_jtDescriptionFocusLost
+
+    private void jtPriceFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtPriceFocusLost
+        if (Utilities.validatePrice(jtPrice.getText())) {
+            jtPrice.setBorder(goodBorder);
+            return;
+        }
+        jtPrice.setBorder(evilBorder);
+    }//GEN-LAST:event_jtPriceFocusLost
 
     /**
      * @param args the command line arguments
@@ -298,6 +415,11 @@ public class UIUpdateBurger extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbCancel;
     private javax.swing.JButton jbUpdate;
     private javax.swing.JLabel jlDescription;
@@ -306,7 +428,7 @@ public class UIUpdateBurger extends javax.swing.JDialog {
     private javax.swing.JLabel jlPrice;
     private javax.swing.JLayeredPane jlpActions;
     private javax.swing.JLayeredPane jlpData;
-    private javax.swing.JTextField jtDescription;
+    private javax.swing.JTextArea jtDescription;
     private javax.swing.JTextField jtID;
     private javax.swing.JTextField jtName;
     private javax.swing.JTextField jtPrice;

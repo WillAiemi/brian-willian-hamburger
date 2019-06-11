@@ -27,7 +27,6 @@ import br.edu.qi.model.ClientVO;
 import br.edu.qi.services.ClientServices;
 import br.edu.qi.services.ServicesFactory;
 import br.edu.qi.interfaces.DialogListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -92,6 +91,8 @@ public class UIClientManager extends javax.swing.JInternalFrame implements Dialo
         jScrollPane1.setViewportView(jtableClients);
 
         jlFilter.setText("Filter");
+        jlFilter.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/br/edu/qi/assets/search_icon.png"))); // NOI18N
+        jlFilter.setEnabled(false);
 
         jtQuery.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
@@ -120,11 +121,12 @@ public class UIClientManager extends javax.swing.JInternalFrame implements Dialo
                 .addGroup(jlpDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(jlpDataLayout.createSequentialGroup()
+                        .addGap(39, 39, 39)
                         .addComponent(jlFilter)
                         .addGap(18, 18, 18)
                         .addComponent(jcbFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jtQuery, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jtQuery, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -181,9 +183,9 @@ public class UIClientManager extends javax.swing.JInternalFrame implements Dialo
         jlpActionLayout.setHorizontalGroup(
             jlpActionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jlpActionLayout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jbRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jbClear)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jbEdit)
